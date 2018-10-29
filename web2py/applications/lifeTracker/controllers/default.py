@@ -56,3 +56,7 @@ def download():
     http://..../[app]/default/download/[filename]
     """
     return response.download(request, db)
+
+# ---- function to add form inputs for additional fields ----
+# def field_and_type():
+#     return HTML(BODY(H1(T('Hello World')))).xml() # .xml to serialize
