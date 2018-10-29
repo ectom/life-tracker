@@ -1,12 +1,12 @@
 {{extend 'layout.html'}}
 
 <form enctype="multipart/form-data" action="{{=URL()}}" method="post">
-    <br> Category Name:<br>
+    Attribute Title:
     <input name="table_title" />
-    <br> Field Names: (Separate with dash, i.e. food-water-heart rate-steps)<br>
+    <br />Categories: (Separate categories with a dash, no spaces)
     <input name="table_fields" />
-    <br> Field Types: (INTEGER, DECIMAL, TEXT, BOOLEAN(true/false), TIMESTAMP)<br>
-    <input name="field_types" /><br>
+    <br />Name of Fields:
+    <input name="fields_types" />
     <br /><input type="submit" />
 </form>
 <h2>Submitted variables</h2>

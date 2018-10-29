@@ -53,3 +53,69 @@ CREATE TABLE "auth_cas"(
     "renew" CHAR(1)
 );
 success!
+timestamp: 2018-10-29T00:19:59.934330
+CREATE TABLE "post"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "post_author" CHAR(512),
+    "post_title" CHAR(512),
+    "post_content" TEXT,
+    "post_time" TIMESTAMP
+);
+success!
+timestamp: 2018-10-29T01:18:25.058204
+CREATE TABLE "dynamic_dbs"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "table_author" CHAR(512),
+    "table_title" CHAR(512),
+    "table_fields" TEXT,
+    "table_field_types" TEXT,
+    "field_time" TIMESTAMP
+);
+success!
+timestamp: 2018-10-29T01:31:27.824452
+ALTER TABLE "dynamic_dbs" ADD "dynamo_time" TIMESTAMP;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
