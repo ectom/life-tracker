@@ -1,5 +1,5 @@
-timestamp: 2018-11-05T17:26:24.564750
-CREATE TABLE "web2py_session_hw3"(
+timestamp: 2018-11-16T01:37:07.895949
+CREATE TABLE "web2py_session_lifeTracker"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "locked" CHAR(1),
     "client_ip" CHAR(64),
@@ -9,7 +9,7 @@ CREATE TABLE "web2py_session_hw3"(
     "session_data" BLOB
 );
 success!
-timestamp: 2018-11-05T17:26:24.569969
+timestamp: 2018-11-16T01:37:07.901792
 CREATE TABLE "auth_user"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "first_name" CHAR(128),
@@ -21,21 +21,21 @@ CREATE TABLE "auth_user"(
     "registration_id" CHAR(512)
 );
 success!
-timestamp: 2018-11-05T17:26:24.573663
+timestamp: 2018-11-16T01:37:07.906587
 CREATE TABLE "auth_group"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "role" CHAR(512),
     "description" TEXT
 );
 success!
-timestamp: 2018-11-05T17:26:24.576113
+timestamp: 2018-11-16T01:37:07.909716
 CREATE TABLE "auth_membership"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
     "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
 );
 success!
-timestamp: 2018-11-05T17:26:24.578706
+timestamp: 2018-11-16T01:37:07.912791
 CREATE TABLE "auth_permission"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
@@ -44,7 +44,7 @@ CREATE TABLE "auth_permission"(
     "record_id" INTEGER
 );
 success!
-timestamp: 2018-11-05T17:26:24.582200
+timestamp: 2018-11-16T01:37:07.916941
 CREATE TABLE "auth_event"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "time_stamp" TIMESTAMP,
@@ -54,7 +54,7 @@ CREATE TABLE "auth_event"(
     "description" TEXT
 );
 success!
-timestamp: 2018-11-05T17:26:24.585611
+timestamp: 2018-11-16T01:37:07.921068
 CREATE TABLE "auth_cas"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
@@ -64,42 +64,17 @@ CREATE TABLE "auth_cas"(
     "renew" CHAR(1)
 );
 success!
-timestamp: 2018-11-05T17:26:24.589438
-CREATE TABLE "post"(
+timestamp: 2018-11-16T01:37:07.925583
+CREATE TABLE "dynamic_dbs"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "post_author" CHAR(512),
-    "post_title" CHAR(512),
-    "post_content" TEXT,
-    "post_time" TIMESTAMP
+    "table_author" CHAR(512),
+    "table_title" CHAR(512),
+    "table_field" TEXT,
+    "table_type" TEXT,
+    "dynamo_time" TIMESTAMP
 );
 success!
-timestamp: 2018-11-05T17:26:24.592463
-CREATE TABLE "thumb"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "user_email" CHAR(512),
-    "post_id" INTEGER REFERENCES "post" ("id") ON DELETE CASCADE  ,
-    "thumb_state" CHAR(512)
-);
+timestamp: 2018-11-16T02:09:55.920247
+ALTER TABLE "dynamic_dbs" ADD "created" CHAR(1);
 success!
-timestamp: 2018-11-12T01:43:12.390795
-CREATE TABLE "web2py_session_hw4"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "locked" CHAR(1),
-    "client_ip" CHAR(64),
-    "created_datetime" TIMESTAMP,
-    "modified_datetime" TIMESTAMP,
-    "unique_key" CHAR(64),
-    "session_data" BLOB
-);
-success!
-timestamp: 2018-11-16T01:16:26.855921
-CREATE TABLE "web2py_session_lifeTracker"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "locked" CHAR(1),
-    "client_ip" CHAR(64),
-    "created_datetime" TIMESTAMP,
-    "modified_datetime" TIMESTAMP,
-    "unique_key" CHAR(64),
-    "session_data" BLOB
-);
 success!

@@ -67,20 +67,23 @@ var app = function() {
     // };
 
     // turn this into got things tracked
-    self.get_posts = function() {
-        $.getJSON(get_post_list_url,
+    self.get_tables = function() {
+        $.getJSON(get_table_list_url,
             function(data) {
                 // I am assuming here that the server gives me a nice list
                 // of posts, all ready for display.
-                self.vue.post_list = data.post_list;
+                self.vue.table_list = data.table_list;
                 // Post-processing.
                 self.process_posts();
                 console.log("I got my list");
-                self.get_thumbs();
+                self.create_tables();
             }
         );
         console.log("I fired the get");
     };
+
+    self.create_tables():
+        console.log(self.vue.table_list);
 
     self.process_posts = function() {
         // This function is used to post-process posts, after the list has been modified
@@ -269,6 +272,7 @@ var app = function() {
         },
         methods: {
             add_table: self.add_table,
+            get_tables: self.get_tables
         }
 
     });
