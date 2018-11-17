@@ -18,7 +18,8 @@ var app = function() {
             e._idx = k++;
         });
     };
-    // turn this into add tracking category
+
+    // adds table info to dynamic_dbs
     self.add_table = function () {
         // We disable the button, to prevent double submission.
         $.web2py.disableElement($("#add-table"));
@@ -66,7 +67,7 @@ var app = function() {
     //     }
     // };
 
-    // turn this into got things tracked
+    // gets tables tht have not been created yet
     self.get_tables = function() {
         $.getJSON(get_table_list_url,
             function(data) {
@@ -82,8 +83,22 @@ var app = function() {
         console.log("I fired the get");
     };
 
-    self.create_tables():
+    // creates tables in db
+    self.create_tables = function() {
         console.log(self.vue.table_list);
+        var list = [];
+        for(var table in self.vue.table_list){
+            if(table.created === false){
+                list.append(table);
+            }
+        }
+        $.get(create_table,{
+            list: list
+        }, function(data){
+            console.log(data);
+        })
+    }
+
 
     self.process_posts = function() {
         // This function is used to post-process posts, after the list has been modified
@@ -272,14 +287,15 @@ var app = function() {
         },
         methods: {
             add_table: self.add_table,
-            get_tables: self.get_tables
+            get_tables: self.get_tables,
+            create_tables: self.create_tables
         }
 
     });
 
 
-    // Gets the posts.
-    // self.get_posts();
+    // Gets the tables with info.
+    self.get_tables();
 
     return self;
 };
