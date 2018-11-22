@@ -6,10 +6,6 @@
 #       'date','time','datetime','blob','upload', 'reference TABLENAME'
 # There is an implicit 'id integer autoincrement' field
 # Consult manual for more options, validators, etc.
-
-
-
-
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
 
