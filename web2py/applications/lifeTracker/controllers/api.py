@@ -10,26 +10,28 @@ def add_table():
 
 def get_table_list():
     results = []
-    dbs = db().select(db.dynamic_dbs.ALL, orderby=~db.dynamic_dbs.dynamo_time)
-    for db in dbs:
+    dbs = db(db.dynamic_dbs).select(db.dynamic_dbs.ALL, orderby=~db.dynamic_dbs.dynamo_time)
+    for base in dbs:
         results.append(dict(
-            id=db.id,
-            table_title=db.table_title,
-            table_field=db.table_field,
-            table_type=db.table_type,
-            table_author=db.table_author
+            id=base.id,
+            table_title=base.table_title,
+            table_field=base.table_field,
+            table_type=base.table_type,
+            table_author=base.table_author,
+            created=base.created
         ))
     # For homogeneity, we always return a dictionary.
     return response.json(dict(table_list=results))
 
-def create_tables():
+def create_table():
     list = request.vars.list
+    print list
     for table in list:
         db.executesql('CREATE TABLE ' + table.table_title +' ('+
             list.table_author+' varchar(255),'+
-            list.table_field+' '+list.table_type+',
-            time TIMESTAMP DEFAULT SYSDATETIME())'
+            list.table_field+' '+list.table_type+', time TIMESTAMP DEFAULT SYSDATETIME())'
         )
+        # db((db.dynamic_dbs))
     return "ok"
 # @auth.requires_signature()
 # def set_thumb():

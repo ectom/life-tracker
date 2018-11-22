@@ -87,12 +87,14 @@ var app = function() {
     self.create_tables = function() {
         console.log(self.vue.table_list);
         var list = [];
-        for(var table in self.vue.table_list){
-            if(table.created === false){
-                list.append(table);
+        for(var i = 0; i < self.vue.table_list.length; i++){
+            console.log(self.vue.table_list[i]);
+            if(self.vue.table_list[i].created == 'False'){
+                list.push(self.vue.table_list[i]);
             }
         }
-        $.get(create_table,{
+        console.log('list', list);
+        $.get(create_table_url,{
             list: list
         }, function(data){
             console.log(data);
@@ -115,10 +117,10 @@ var app = function() {
             // // Did I like it?
             // // If I do e._smile = e.like, then Vue won't see the changes to e._smile .
             // Vue.set(e, '_smile', e.like);
-            Vue.set(e, '_editing', false)
-            Vue.set(e, '_total'); //keeps track of total likes vs dislikes
-            Vue.set(e, '_gray_thumb'); //keeps track of when thumbs are supposed to be gray
-            Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
+            // Vue.set(e, '_editing', false)
+            // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
+            // Vue.set(e, '_gray_thumb'); //keeps track of when thumbs are supposed to be gray
+            // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
         });
     };
     //
