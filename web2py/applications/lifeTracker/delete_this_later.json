@@ -1,0 +1,16 @@
+{
+    u 'table_author': u 'ectom@ucsc.edu',
+    u 'table_title': u 'qwertyuiop[',
+    u 'created': u 'False',
+    u 'table_type': u 'DECIMAL',
+    u 'table_field': u 'wertyuiop',
+    u '_idx': 0,
+    u 'id': 12
+}
+
+db.executesql(
+'CREATE TABLE ' + title + ' ('+
+    author+' varchar(255), '+
+    field+' '+type
+    +', time TIMESTAMP DEFAULT SYSDATETIME())'
+)

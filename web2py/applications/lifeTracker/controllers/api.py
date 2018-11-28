@@ -1,4 +1,11 @@
+import json
+import datetime
+
 # Here go your api methods.
+
+def get_current_time():
+    return datetime.datetime.utcnow()
+
 @auth.requires_signature()
 def add_table():
     table_id = db.dynamic_dbs.insert(
@@ -23,16 +30,36 @@ def get_table_list():
     # For homogeneity, we always return a dictionary.
     return response.json(dict(table_list=results))
 
+@auth.requires_signature()
 def create_table():
-    list = request.vars.list
-    print list
+    list = json.loads(request.vars.list)
     for table in list:
-        db.executesql('CREATE TABLE ' + table.table_title +' ('+
-            list.table_author+' varchar(255),'+
-            list.table_field+' '+list.table_type+', time TIMESTAMP DEFAULT SYSDATETIME())'
+        print table
+        title = table['table_title']
+        author = table['table_author']
+        field = table['table_field']
+        type = table['table_type']
+
+        db.define_table(title,
+            Field('author', 'text', default=author),
+            Field(field, type),
+            Field('entry_time', 'datetime', default=get_current_time() ,update=get_current_time())
         )
-        # db((db.dynamic_dbs))
     return "ok"
+
+        # db.executesql('CREATE TABLE ' + title + ' ('+
+        #     author+' varchar(255), '+
+        #     field+' '+type
+        #     +', time TIMESTAMP DEFAULT SYSDATETIME())'
+        # )
+
+        # change created to True after table creation
+        # db((db.dynamic_dbs))
+
+
+
+
+
 # @auth.requires_signature()
 # def set_thumb():
 #     post_id = int(request.vars.post_id)
