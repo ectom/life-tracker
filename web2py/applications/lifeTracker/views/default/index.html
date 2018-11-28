@@ -3,7 +3,7 @@
 <html lang="en">
 <meta charset='utf-8'>
 
-<head>
+{{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.2/d3.js"></script>
@@ -13,8 +13,8 @@
   body {font-family: Arial; line-height: 160%; font-size: 12px; }
   ul {list-style: none; margin: 0; padding: 0; }
   li { min-width: 80px; padding: 10px; margin: 0;}
-  input {border: 1px dotted #ccc; background: white; font-family: Arial; padding: 10px 20px; font-size: 12px; margin: 20px 10px 20px 0; color: red;}
-  input:focus { background-color:yellow; outline: none;}
+  input {border: 1px dotted #ccc; background: white; font-family: Arial; padding: 10px 20px; font-size: 12px; margin: 20px 10px 20px 0; color: black;}
+  input:focus { background-color:#ffe4b5; outline: none;}
 </style>
 
 
@@ -24,7 +24,7 @@
     var create_table_url = "{{=URL('api', 'create_table')}}";
     var is_logged_in = {{= 'false' if auth.user is None else 'true' }};
 </script>
-</head>
+{{end}}
 
 <body>
   <div class="main_content">
@@ -57,11 +57,11 @@
                     <div class="form threequarters">
                         <select type="text" id="myType" v-model="table_type" text="Field Type">
                             <option disabled selected value> -- select an option -- </option>
-                            <option value="INTEGER">INTEGER</option>
-                            <option value="DECIMAL">DECIMAL</option>
-                            <option value="TEXT">TEXT</option>
-                            <option value="BOOLEAN">BOOLEAN</option>
-                            <option value="TIMESTAMP">TIMESTAMP</option>
+                            <option value="integer">INTEGER</option>
+                            <option value="double">DECIMAL</option>
+                            <option value="text">TEXT</option>
+                            <option value="boolean">BOOLEAN</option>
+                            <option value="datetime">TIMESTAMP</option>
                         </select>
                     </div>
                 </div>
@@ -77,6 +77,16 @@
           </form>
 
           <h2>Submitted variables</h2>
+          <div v-if="table_list.length === 0">There are no submitted data</div>
+          <div v-if="table_list.length > 0">${table_list}
+            <br>theres something<br>
+          </div>
+
+          <div class="list_div" v-for="table in table_list">
+          <div class="table_title">${table_title}</div>
+          <div class="table_field">${table_field}</div>
+          <div class="table_type">${table_type}</div>
+
           {{=BEAUTIFY(request.vars)}}
 
       </div>
@@ -84,7 +94,6 @@
 
        <script>
 
-           var dataset = [];
            function handleClick(event){
                console.log(document.getElementById("myCategory").value)
                console.log(document.getElementById("myField").value)
