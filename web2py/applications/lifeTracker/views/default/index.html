@@ -23,15 +23,6 @@
     var get_table_list_url = "{{=URL('api', 'get_table_list')}}";
     var create_table_url = "{{=URL('api', 'create_table', user_signature=True)}}";
 
-    // // Like callbacks.
-    // var set_like_url = "{{=URL('api', 'set_like', user_signature=True)}}";
-    // var get_likers_url = "{{=URL('api', 'get_likers')}}"
-    // // Stars.
-    // var set_stars_url = "{{=URL('api', 'set_stars', user_signature=True)}}";
-    //
-    // var set_thumb_url = "{{=URL('api', 'set_thumb', user_signature=True)}}";
-    // var update_count_url = "{{=URL('api', 'update_count', user_signature=True)}}";
-
     var is_logged_in = {{= 'false' if auth.user is None else 'true' }};
 </script>
 {{end}}
@@ -67,11 +58,11 @@
                     <div class="form threequarters">
                         <select type="text" id="myType" v-model="table_type" text="Field Type">
                             <option disabled selected value> -- select an option -- </option>
-                            <option value="integer">INTEGER</option>
-                            <option value="double">DECIMAL</option>
-                            <option value="text">TEXT</option>
-                            <option value="boolean">BOOLEAN</option>
-                            <option value="datetime">TIMESTAMP</option>
+                            <option value="INTEGER">INTEGER</option>
+                            <option value="DECIMAL">DECIMAL</option>
+                            <option value="TEXT">TEXT</option>
+                            <option value="BOOLEAN">BOOLEAN</option>
+                            <option value="TIMESTAMP">TIMESTAMP</option>
                         </select>
                     </div>
                 </div>
@@ -85,17 +76,6 @@
                 </div>
             </div>
           </form>
-
-          <h2>Submitted variables</h2>
-          <div v-if="table_list.length === 0">There are no submitted data</div>
-          <div v-if="table_list.length > 0">${table_list}
-            <br>theres something<br>
-          </div>
-
-          <div class="list_div" v-for="table in table_list">
-          <div class="table_title">${table_title}</div>
-          <div class="table_field">${table_field}</div>
-          <div class="table_type">${table_type}</div>
 
           {{=BEAUTIFY(request.vars)}}
 
