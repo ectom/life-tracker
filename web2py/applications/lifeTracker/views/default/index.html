@@ -31,49 +31,53 @@
   <div class="main_content">
       <div id="vuediv" class="display:none">
           <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
+          <button class="add_tables" v-on:click="show_form"><i class="fa fa-plus-circle"></i> Add Category</button>
+
           <form name="myform" onSubmit="return handleClick()">
-            <div class="add_table">
-                <div class="container form_row">
-                    <div class="label quarter">
-                        Category Title:
-                    </div>
-                    <div class="form threequarters">
-                        <input type="text" id="myCategory" v-model="table_title" placeholder="Enter the category title (i.e. water, walking, sleep)" />
-                    </div>
-                </div>
-                <div class="container form_row">
-                    <div class="label quarter">
-                        Field Name:
-                    </div>
-                    <div class="form threequarters">
-                        <input type="text" id="myField" v-model="table_field"
-                            placeholder="Enter the name of the field you want to track (No Spaces, use underscore i.e. cups, steps, heart_rate)">
-                        </input>
-                    </div>
-                </div>
-                <div class="container form_row">
-                    <div class="label quarter">
-                        Field Type:
-                    </div>
-                    <div class="form threequarters">
-                        <select type="text" id="myType" v-model="table_type" text="Field Type">
-                            <option disabled selected value> -- select an option -- </option>
-                            <option value="INTEGER">INTEGER</option>
-                            <option value="DECIMAL">DECIMAL</option>
-                            <option value="TEXT">TEXT</option>
-                            <option value="BOOLEAN">BOOLEAN</option>
-                            <option value="TIMESTAMP">TIMESTAMP</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="container form_row">
-                    <div class="quarter"></div>
-                    <div class="threequarters">
-                        <div class="submit">
-                            <button id="add-table" v-on:click="add_table"><i class="fa fa-caret-down"></i>Submit</button>
-                        </div>
-                    </div>
-                </div>
+            <div id="show_myform"  style="display:none">
+              <div class="add_table">
+                  <div class="container form_row">
+                      <div class="label quarter">
+                          Category Title:
+                      </div>
+                      <div class="form threequarters">
+                          <input type="text" id="myCategory" v-model="table_title" placeholder="Enter the category title (i.e. water, walking, sleep)" />
+                      </div>
+                  </div>
+                  <div class="container form_row">
+                      <div class="label quarter">
+                          Field Name:
+                      </div>
+                      <div class="form threequarters">
+                          <input type="text" id="myField" v-model="table_field"
+                              placeholder="Enter the name of the field you want to track (No Spaces, use underscore i.e. cups, steps, heart_rate)">
+                          </input>
+                      </div>
+                  </div>
+                  <div class="container form_row">
+                      <div class="label quarter">
+                          Field Type:
+                      </div>
+                      <div class="form threequarters">
+                          <select type="text" id="myType" v-model="table_type" text="Field Type">
+                              <option disabled selected value> -- select an option -- </option>
+                              <option value="INTEGER">INTEGER</option>
+                              <option value="DECIMAL">DECIMAL</option>
+                              <option value="TEXT">TEXT</option>
+                              <option value="BOOLEAN">BOOLEAN</option>
+                              <option value="TIMESTAMP">TIMESTAMP</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="container form_row">
+                      <div class="quarter"></div>
+                      <div class="threequarters">
+                          <div class="submit">
+                              <button id="add-table" v-on:click="add_table"><i class="fa fa-caret-down"></i>Submit</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
             </div>
           </form>
 
