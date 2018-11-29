@@ -1,4 +1,4 @@
-timestamp: 2018-11-16T01:37:07.895949
+timestamp: 2018-11-29T13:28:31.917286
 CREATE TABLE "web2py_session_lifeTracker"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "locked" CHAR(1),
@@ -9,7 +9,7 @@ CREATE TABLE "web2py_session_lifeTracker"(
     "session_data" BLOB
 );
 success!
-timestamp: 2018-11-16T01:37:07.901792
+timestamp: 2018-11-29T13:28:31.935250
 CREATE TABLE "auth_user"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "first_name" CHAR(128),
@@ -21,21 +21,21 @@ CREATE TABLE "auth_user"(
     "registration_id" CHAR(512)
 );
 success!
-timestamp: 2018-11-16T01:37:07.906587
+timestamp: 2018-11-29T13:28:31.944781
 CREATE TABLE "auth_group"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "role" CHAR(512),
     "description" TEXT
 );
 success!
-timestamp: 2018-11-16T01:37:07.909716
+timestamp: 2018-11-29T13:28:31.953195
 CREATE TABLE "auth_membership"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
     "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
 );
 success!
-timestamp: 2018-11-16T01:37:07.912791
+timestamp: 2018-11-29T13:28:32.023835
 CREATE TABLE "auth_permission"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
@@ -44,7 +44,7 @@ CREATE TABLE "auth_permission"(
     "record_id" INTEGER
 );
 success!
-timestamp: 2018-11-16T01:37:07.916941
+timestamp: 2018-11-29T13:28:32.036131
 CREATE TABLE "auth_event"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "time_stamp" TIMESTAMP,
@@ -54,7 +54,7 @@ CREATE TABLE "auth_event"(
     "description" TEXT
 );
 success!
-timestamp: 2018-11-16T01:37:07.921068
+timestamp: 2018-11-29T13:28:32.052124
 CREATE TABLE "auth_cas"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
@@ -64,91 +64,14 @@ CREATE TABLE "auth_cas"(
     "renew" CHAR(1)
 );
 success!
-timestamp: 2018-11-16T01:37:07.925583
+timestamp: 2018-11-29T13:28:32.069699
 CREATE TABLE "dynamic_dbs"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "table_author" CHAR(512),
     "table_title" CHAR(512),
     "table_field" TEXT,
     "table_type" TEXT,
+    "created" CHAR(512),
     "dynamo_time" TIMESTAMP
 );
 success!
-timestamp: 2018-11-16T02:09:55.920247
-ALTER TABLE "dynamic_dbs" ADD "created" CHAR(1);
-success!
-success!
-timestamp: 2018-11-28T15:19:48.507808
-CREATE TABLE "grehtgthg"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "author" TEXT,
-    "ethsrdfg" INTEGER,
-    "entry_time" TIMESTAMP
-);
-success!
-timestamp: 2018-11-28T15:19:48.513267
-CREATE TABLE "qwertyuiop"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "author" TEXT,
-    "wertyuiop" INTEGER,
-    "entry_time" TIMESTAMP
-);
-success!
-timestamp: 2018-11-28T15:19:48.518047
-CREATE TABLE "egrwhbjhiobk"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "author" TEXT,
-    "iuoyeigf" INTEGER,
-    "entry_time" TIMESTAMP
-);
-success!
-timestamp: 2018-11-28T15:19:48.522107
-CREATE TABLE "Running"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "author" TEXT,
-    "Miles" INTEGER,
-    "entry_time" TIMESTAMP
-);
-success!
-timestamp: 2018-11-28T15:19:48.529004
-CREATE TABLE "fchgj"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "author" TEXT,
-    "dtrytfj" INTEGER,
-    "entry_time" TIMESTAMP
-);
-success!
-timestamp: 2018-11-28T15:19:48.532945
-CREATE TABLE "speech"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "author" TEXT,
-    "hello" INTEGER,
-    "entry_time" TIMESTAMP
-);
-success!
-timestamp: 2018-11-28T15:19:48.537242
-CREATE TABLE "Water"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "author" TEXT,
-    "cups" INTEGER,
-    "entry_time" TIMESTAMP
-);
-success!
-timestamp: 2018-11-28T18:18:19.234186
-ALTER TABLE "grehtgthg" ADD "field" INTEGER;
-timestamp: 2018-11-28T18:18:35.851341
-ALTER TABLE "grehtgthg" ADD "field" INTEGER;
-timestamp: 2018-11-28T18:19:02.888076
-ALTER TABLE "grehtgthg" ADD "field" INTEGER;
-timestamp: 2018-11-28T18:19:15.050683
-ALTER TABLE "grehtgthg" ADD "field" INTEGER;
-timestamp: 2018-11-28T23:18:11.718021
-ALTER TABLE "grehtgthg" ADD "field" INTEGER;
-timestamp: 2018-11-28T23:24:35.563852
-ALTER TABLE "grehtgthg" ADD "field" INTEGER;
-timestamp: 2018-11-28T23:27:06.269152
-ALTER TABLE "grehtgthg" ADD "field" INTEGER;
-timestamp: 2018-11-28T23:36:12.482461
-ALTER TABLE "grehtgthg" ADD "field" INTEGER;
-timestamp: 2018-11-28T23:54:55.153236
-ALTER TABLE "grehtgthg" ADD "field" INTEGER;

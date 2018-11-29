@@ -19,6 +19,17 @@ var app = function() {
         });
     };
 
+    self.show_form = function(){
+      if(!self.vue.seen){
+        self.vue.seen = true;
+        console.log("seen is", self.vue.seen);
+      }
+      if(self.vue.seen === true){
+        $("#show_myform").show();
+        $(".add_tables").hide();
+      }
+    };
+
     // adds table info to dynamic_dbs
     self.add_table = function () {
         // We disable the button, to prevent double submission.
@@ -49,6 +60,9 @@ var app = function() {
                 self.vue.table_list.unshift(new_table);
                 // We re-enumerate the array.
                 self.process_posts();
+                $("#show_myform").hide();
+                $(".add_tables").show();
+                console.log("seen is", self.vue.seen);
             });
             console.log('js');
         // If you put code here, it is run BEFORE the call comes back.
@@ -285,13 +299,14 @@ var app = function() {
             table_type: "",
             table_list: [],
             thumbs_list: [],
-            isHidden: true,
-            // _editing: false
+            seen: false,
+
         },
         methods: {
             add_table: self.add_table,
             get_tables: self.get_tables,
-            create_tables: self.create_tables
+            create_tables: self.create_tables,
+            show_form: self.show_form,
         }
 
     });
