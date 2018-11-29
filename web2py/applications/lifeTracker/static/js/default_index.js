@@ -25,9 +25,6 @@ var app = function() {
         $.web2py.disableElement($("#add-table"));
         var table_title = self.vue.table_title; // Makes a copy
         var table_field = self.vue.table_field;
-        if(self.vue.table_type === 'integer'){
-            self.vue.table_type = 'integer, requires=IS_INT_IN_RANGE(-1e100, 1e100)'
-        }
         var table_type = self.vue.table_type;
 
         $.post(add_table_url,

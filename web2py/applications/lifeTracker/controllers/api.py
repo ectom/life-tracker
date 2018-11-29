@@ -40,21 +40,16 @@ def create_table():
         field = table['table_field']
         type = table['table_type']
 
-        db.define_table(title,
-            Field('author', 'text', default=author),
-            Field(field, type),
-            Field('entry_time', 'datetime', default=get_current_time() ,update=get_current_time())
+        # creates all tables
+        sql = 'CREATE TABLE "' + title + '" ("author" varchar(255), ' + field + ' ' + type + ', "entry_time" TIMESTAMP)'
+        db.executesql(sql)
+
+        db((db.dynamic_dbs.table_title == title)).update(
+            created = True
         )
     return "ok"
 
-        # db.executesql('CREATE TABLE ' + title + ' ('+
-        #     author+' varchar(255), '+
-        #     field+' '+type
-        #     +', time TIMESTAMP DEFAULT SYSDATETIME())'
-        # )
 
-        # change created to True after table creation
-        # db((db.dynamic_dbs))
 
 
 
