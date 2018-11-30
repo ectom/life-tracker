@@ -4,7 +4,13 @@ import datetime
 # Here go your api methods.
 
 def get_current_time():
-    return datetime.datetime.utcnow()
+    return datetime.datetime.now()
+
+def is_today(entry_time):
+    if entry_time.date() == datetime.datetime.now().date():
+        return 'true'
+    else:
+        return 'false'
 
 @auth.requires_signature()
 def add_table():
@@ -15,7 +21,7 @@ def add_table():
     )
     return response.json(dict(table_id=table_id))
 
-def get_table_list():
+def get_dynamic_table_list():
     results = []
     dbs = db(db.dynamic_dbs).select(db.dynamic_dbs.ALL, orderby=~db.dynamic_dbs.dynamo_time)
     for base in dbs:
@@ -47,12 +53,29 @@ def create_table():
         db((db.dynamic_dbs.table_title == title)).update(
             created = True
         )
-    return "ok"
 
-
-
-
-
+# pulls data from any tables that belong to a specific user
+@auth.requires_signature()
+def get_dash_info():
+    entries = []
+    now = datetime.datetime.now()
+    tables = json.loads(request.vars.tables)
+    print tables
+    for table in tables:
+        title = table['table_title']
+        sql = 'SELECT * FROM "' + title + '" WHERE entry_time >= "' + str(now.date()) +' 00:00:00.000000" AND entry_time <= "' + str(now) + '"'
+        entry_of_today = db.executesql(sql)
+        if len(entry_of_today) > 0:
+            x = dict(
+                author=entry_of_today[0][0],
+                table_field_value=entry_of_today[0][1],
+                entry_time=entry_of_today[0][2],
+                table_field=table['table_field'],
+                table_title=table['table_title']
+            )
+            entries.append(x)
+        print entries
+    return response.json(dict(entries=entries))
 
 
 # @auth.requires_signature()

@@ -83,19 +83,17 @@ var app = function() {
     // };
 
     // gets tables tht have not been created yet
-    self.get_tables = function() {
-        $.getJSON(get_table_list_url,
+    self.get_dynamic_tables = function() {
+        $.getJSON(get_dynamic_table_list_url,
             function(data) {
                 // I am assuming here that the server gives me a nice list
                 // of posts, all ready for display.
                 self.vue.table_list = data.table_list;
                 // Post-processing.
                 self.process_posts();
-                console.log("I got my list");
                 self.create_tables();
             }
         );
-        console.log("I fired the get");
     };
 
     // creates tables in db
@@ -103,7 +101,6 @@ var app = function() {
         console.log(self.vue.table_list);
         var list = [];
         for(var i = 0; i < self.vue.table_list.length; i++){
-            console.log(self.vue.table_list[i]);
             if(self.vue.table_list[i].created == 'False'){
                 list.push(self.vue.table_list[i]);
             }
@@ -111,9 +108,8 @@ var app = function() {
         $.post(create_table_url,
             {
                 list: JSON.stringify(list),
-            }, function(data){
-                console.log('list2', data);
-        });
+            });
+        self.get_dash_info();
     }
 
 
@@ -138,6 +134,35 @@ var app = function() {
             // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
         });
     };
+
+    self.get_dash_info = function () {
+        var all_tables = self.vue.table_list;
+        var tables = [];
+        for (var i = 0; i < all_tables.length; i++) {
+            if (user_email === all_tables[i].table_author){
+                tables.push(all_tables[i]);
+            }
+        }
+        self.vue.user_tables = tables;
+        $.post(get_dash_info_url,{
+            tables: JSON.stringify(tables)
+        }, function(data){
+            // data is a list consisting of all of today's entries
+            self.vue.recorded_tables = data.entries;
+            var unentered = []
+            const entries = data.entries;
+            for(var i = 0; i < entries.length; i++) {
+                const entered_title = entries[i]['table_title'];
+                for(var j = 0; j < self.vue.user_tables.length; j++) {
+                    if (entered_title !== self.vue.user_tables[j].table_title){
+                        unentered.append(user_tables[j]);
+                    }
+                }
+            }
+            self.vue.not_recorded_tables = unentered;
+            console.log(unentered);
+        });
+    }
     //
     // self.total = function(p){
     //     $.post(get_thumbs_url, { post_id: p.id }, function (data) {
@@ -297,24 +322,27 @@ var app = function() {
             table_title: "",
             table_field: "",
             table_type: "",
-            table_list: [],
-            thumbs_list: [],
-            seen: false,
+            table_list: [], // all tables
+            user_tables: [], // all the tables that logged in user has created
+            not_recored_tables: [], // the entries that the user has not entered yet for the day
+            recorded_tables: [], // all tables that have entries for the day
+            // thumbs_list: [],
+            seen: false, //toggle add table form
 
         },
         methods: {
             add_table: self.add_table,
-            get_tables: self.get_tables,
+            get_dynamic_tables: self.get_dynamic_tables,
             create_tables: self.create_tables,
             show_form: self.show_form,
+            get_dash_info: self.get_dash_info,
         }
 
     });
 
 
     // Gets the tables with info.
-    self.get_tables();
-
+    self.get_dynamic_tables();
     return self;
 };
 
