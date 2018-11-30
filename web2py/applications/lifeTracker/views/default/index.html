@@ -20,10 +20,14 @@
 
 <script>
     var add_table_url = "{{=URL('api', 'add_table', user_signature=True)}}";
-    var get_table_list_url = "{{=URL('api', 'get_table_list')}}";
+    var get_dynamic_table_list_url = "{{=URL('api', 'get_dynamic_table_list')}}";
     var create_table_url = "{{=URL('api', 'create_table', user_signature=True)}}";
 
+    var get_dash_info_url = "{{=URL('api', 'get_dash_info', user_signature=True)}}";
+
     var is_logged_in = {{= 'false' if auth.user is None else 'true' }};
+    var user_email = "{{=auth.user.email}}";
+
 </script>
 {{end}}
 
