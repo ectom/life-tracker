@@ -149,13 +149,16 @@ var app = function() {
         }, function(data){
             // data is a list consisting of all of today's entries
             self.vue.recorded_tables = data.entries;
-            var unentered = []
+            var unentered = [];
             const entries = data.entries;
             for(var i = 0; i < entries.length; i++) {
                 const entered_title = entries[i]['table_title'];
                 for(var j = 0; j < self.vue.user_tables.length; j++) {
-                    if (entered_title !== self.vue.user_tables[j].table_title){
-                        unentered.append(user_tables[j]);
+                    if (entered_title != self.vue.user_tables[j].table_title){
+                        // console.log(self.vue.user_tables[j]);
+                        // console.log(unentered);
+                        const x = self.vue.user_tables[j];
+                        unentered.push(x);
                     }
                 }
             }
