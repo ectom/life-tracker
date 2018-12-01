@@ -33,6 +33,13 @@ def user():
     return dict(form=auth())
 
 
+def graph():
+    """
+    allows to connect with graph.html 
+    """
+    return dict()
+
+
 @cache.action()
 def download():
     """
@@ -50,5 +57,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-

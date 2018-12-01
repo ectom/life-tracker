@@ -7,6 +7,7 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.2/d3.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
 
 <style>
@@ -15,6 +16,15 @@
   li { min-width: 80px; padding: 10px; margin: 0;}
   input {border: 1px dotted #ccc; background: white; font-family: Arial; padding: 10px 20px; font-size: 12px; margin: 20px 10px 20px 0; color: black;}
   input:focus { background-color:#ffe4b5; outline: none;}
+  tr:nth-child(even) {background-color: #f2f2f2;}
+  th{
+    background-color: #000000;
+    color: white;
+  }
+  th, td {
+    padding: 15px;
+    text-align: left;
+  }
 </style>
 
 
@@ -85,7 +95,37 @@
             </div>
           </form>
 
-          {{=BEAUTIFY(request.vars)}}
+          <!-- To Display Table with Columns -->
+          <br>
+            <table v-if="is_logged_in">
+              <!-- Column Titles -->
+              <tr>
+                <th>Table Title </th>
+                <th>Table Field</th>
+                <th>Table Type</th>
+              </tr>
+              <!-- First Row -->
+              <tr>
+                <td>Water</td>
+                <td>2</td>
+                <td>Cups</td>
+              </tr>
+              <!-- Second Row -->
+              <tr>
+                <td>Walking</td>
+                <td>2000</td>
+                <td>Steps</td>
+              </tr>
+            </table>
+          </br>
+
+
+          <!-- Navigates to graph.html -->
+          <div id="hello">
+            <p>
+              <a href="../default/graph.html"><button>Check Graph</button></a>
+            </p>
+          </div>
 
       </div>
     </div>
