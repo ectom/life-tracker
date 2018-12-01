@@ -1,6 +1,25 @@
+var GraphComponent = {
+            template: '<h2>graph</h2>'
+        }
+
+const routes = [
+            { path: '/graph', name: 'graph', component: GraphComponent }
+]
+const router = new VueRouter({
+            routes // short for `routes: routes`
+})
+
+var hello = new Vue({
+    components: {
+        'GraphComponent': GraphComponent
+    },
+    router
+}).$mount('#hello')
+
+
+
 // This is the js for the default/index.html view.
 var app = function() {
-
     var self = {};
     Vue.config.silent = false; // show all warnings
 
@@ -60,6 +79,7 @@ var app = function() {
                 self.vue.table_list.unshift(new_table);
                 // We re-enumerate the array.
                 self.process_posts();
+                //hide button
                 $("#show_myform").hide();
                 $(".add_tables").show();
                 console.log("seen is", self.vue.seen);
