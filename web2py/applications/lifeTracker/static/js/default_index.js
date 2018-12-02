@@ -78,7 +78,7 @@ var app = function() {
                 };
                 self.vue.table_list.unshift(new_table);
                 // We re-enumerate the array.
-                self.process_posts();
+                self.process_tables();
                 //hide button
                 $("#show_myform").hide();
                 $(".add_tables").show();
@@ -110,7 +110,7 @@ var app = function() {
                 // of posts, all ready for display.
                 self.vue.table_list = data.table_list;
                 // Post-processing.
-                self.process_posts();
+                self.process_tables();
                 self.create_tables();
             }
         );
@@ -130,27 +130,23 @@ var app = function() {
                 list: JSON.stringify(list),
             });
         self.get_dash_info();
-    }
+    };
 
 
-    self.process_posts = function() {
-        // This function is used to post-process posts, after the list has been modified
-        // or after we have gotten new posts.
-        // We add the _idx attribute to the posts.
+    self.process_tables = function() {
         enumerate(self.vue.table_list);
-        // We initialize the smile status to match the like.
-
         self.vue.table_list.map(function (e) {
-            // I need to use Vue.set here, because I am adding a new watched attribute
-            // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
-            // The code below is commented out, as we don't have smiles any more.
-            // Replace it with the appropriate code for thumbs.
-            // // Did I like it?
-            // // If I do e._smile = e.like, then Vue won't see the changes to e._smile .
-            // Vue.set(e, '_smile', e.like);
-            // Vue.set(e, '_editing', false)
             // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
             // Vue.set(e, '_gray_thumb'); //keeps track of when thumbs are supposed to be gray
+            // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
+        });
+    };
+
+    self.process_user_tables = function() {
+        enumerate(self.vue.user_tables);
+        self.vue.user_tables.map(function (e) {
+            // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
+            Vue.set(e, '_entry'); // keeps track of each category's daily entry
             // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
         });
     };
@@ -171,20 +167,28 @@ var app = function() {
             self.vue.recorded_tables = data.entries;
             var unentered = [];
             const entries = data.entries;
-            for(var i = 0; i < entries.length; i++) {
-                const entered_title = entries[i]['table_title'];
-                for(var j = 0; j < self.vue.user_tables.length; j++) {
-                    if (entered_title != self.vue.user_tables[j].table_title){
-                        // console.log(self.vue.user_tables[j]);
-                        // console.log(unentered);
-                        const x = self.vue.user_tables[j];
-                        unentered.push(x);
+            if(entries.length > 0){
+                for(var i = 0; i < entries.length; i++) {
+                    const entered_title = entries[i]['table_title'];
+                    for(var j = 0; j < self.vue.user_tables.length; j++) {
+                        console.log(entered_title);
+                        if (entered_title != self.vue.user_tables[j].table_title){
+                            const x = self.vue.user_tables[j];
+                            unentered.push(x);
+                        }
                     }
                 }
+            } else {
+                unentered = self.vue.user_tables
             }
             self.vue.not_recorded_tables = unentered;
-            console.log(unentered);
+            console.log('unentered', unentered);
+            // self.process_user_tables();
         });
+    };
+
+    self.add_entry = function () {
+
     }
     //
     // self.total = function(p){
@@ -307,7 +311,7 @@ var app = function() {
     //             // Shows updated post
     //             // self.vue.post_list[post_id].post_content = data.post_content;
     //             // We re-enumerate the array.
-    //             self.process_posts();
+    //             self.process_tables();
     //         });
     // }
     //
@@ -347,9 +351,8 @@ var app = function() {
             table_type: "",
             table_list: [], // all tables
             user_tables: [], // all the tables that logged in user has created
-            not_recored_tables: [], // the entries that the user has not entered yet for the day
+            not_recorded_tables: [], // the entries that the user has not entered yet for the day
             recorded_tables: [], // all tables that have entries for the day
-            // thumbs_list: [],
             seen: false, //toggle add table form
 
         },
@@ -359,6 +362,7 @@ var app = function() {
             create_tables: self.create_tables,
             show_form: self.show_form,
             get_dash_info: self.get_dash_info,
+            add_entry: self.add_entry,
         }
 
     });
