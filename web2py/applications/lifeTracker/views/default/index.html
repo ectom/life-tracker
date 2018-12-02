@@ -100,9 +100,9 @@
             <table v-if="is_logged_in">
               <!-- Column Titles -->
               <tr>
-                <th>Table Title </th>
-                <th>Table Field</th>
-                <th>Table Type</th>
+                <th>Category </th>
+                <th>Today's Value</th>
+                <th>Unit</th>
               </tr>
               <!-- First Row -->
               <tr>
@@ -118,6 +118,9 @@
               </tr>
             </table>
           </br>
+
+          ${recorded_tables} <br>
+          ${not_recorded_tables}
 
 
           <!-- Navigates to graph.html -->
