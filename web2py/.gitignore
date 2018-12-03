@@ -2,3 +2,6 @@ cache
 databases
 errors
 sessions
+web2py/httpserver.log
+web2py/httpserver.pid
+parameters_8000.py
