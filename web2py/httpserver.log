@@ -14255,3 +14255,16 @@
 127.0.0.1, 2018-12-01 18:31:21, GET, /lifeTracker/api/get_dynamic_table_list, HTTP/1.1, 200, 0.015413
 127.0.0.1, 2018-12-01 18:31:21, POST, /lifeTracker/api/get_dash_info, HTTP/1.1, 200, 0.036603
 127.0.0.1, 2018-12-01 18:31:21, POST, /lifeTracker/api/create_table, HTTP/1.1, 200, 0.037232
+127.0.0.1, 2018-12-02 17:40:24, GET, /welcome/static/images/background.jpg, HTTP/1.1, 404, 0.000236
+127.0.0.1, 2018-12-02 17:40:39, GET, /, HTTP/1.1, 303, 15.007348
+127.0.0.1, 2018-12-02 17:40:39, GET, /welcome/default/index, HTTP/1.1, 200, 0.107653
+127.0.0.1, 2018-12-02 17:40:39, GET, /welcome/static/images/background.jpg, HTTP/1.1, 404, 0.000195
+127.0.0.1, 2018-12-02 17:40:43, GET, /admin/default/site, HTTP/1.1, 200, 0.128851
+127.0.0.1, 2018-12-02 17:40:45, GET, /lifeTracker/default/index, HTTP/1.1, 200, 0.053329
+127.0.0.1, 2018-12-02 17:40:45, GET, /lifeTracker/static/css/custom.css, HTTP/1.1, 200, 0.001181
+127.0.0.1, 2018-12-02 17:40:45, GET, /lifeTracker/static/css/calendar.css, HTTP/1.1, 200, 0.003351
+127.0.0.1, 2018-12-02 17:40:45, GET, /lifeTracker/static/font-awesome-4.6.3/css/font-awesome.min.css, HTTP/1.1, 200, 0.003653
+127.0.0.1, 2018-12-02 17:40:45, GET, /lifeTracker/static/js/default_index.js, HTTP/1.1, 200, 0.003650
+127.0.0.1, 2018-12-02 17:40:45, GET, /lifeTracker/api/get_dynamic_table_list, HTTP/1.1, 200, 0.016656
+127.0.0.1, 2018-12-02 17:40:45, POST, /lifeTracker/api/create_table, HTTP/1.1, 200, 0.040648
+127.0.0.1, 2018-12-02 17:40:45, POST, /lifeTracker/api/get_dash_info, HTTP/1.1, 200, 0.043244
