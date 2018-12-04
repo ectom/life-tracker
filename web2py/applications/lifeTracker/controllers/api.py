@@ -78,6 +78,13 @@ def get_dash_info():
     return response.json(dict(entries=entries))
 
 
+@auth.requires_signature()
+def add_entry():
+    table = json.loads(request.vars.table)
+    print request.vars
+    return "ok"
+
+
 # @auth.requires_signature()
 # def set_thumb():
 #     post_id = int(request.vars.post_id)
