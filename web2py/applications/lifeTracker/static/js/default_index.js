@@ -1,23 +1,3 @@
-var GraphComponent = {
-            template: '<h2>graph</h2>'
-        }
-
-const routes = [
-            { path: '/graph', name: 'graph', component: GraphComponent }
-]
-const router = new VueRouter({
-            routes // short for `routes: routes`
-})
-
-var hello = new Vue({
-    components: {
-        'GraphComponent': GraphComponent
-    },
-    router
-}).$mount('#hello')
-
-
-
 // This is the js for the default/index.html view.
 var app = function() {
     var self = {};
