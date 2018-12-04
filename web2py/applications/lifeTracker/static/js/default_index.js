@@ -35,6 +35,7 @@ var app = function() {
         var k=0;
         return v.map(function(e) {
             e._idx = k++;
+            e._entry = null;
         });
     };
 
@@ -78,7 +79,7 @@ var app = function() {
                 };
                 self.vue.table_list.unshift(new_table);
                 // We re-enumerate the array.
-                self.process_tables();
+                self.process_dynamic_tables();
                 //hide button
                 $("#show_myform").hide();
                 $(".add_tables").show();
@@ -110,7 +111,7 @@ var app = function() {
                 // of posts, all ready for display.
                 self.vue.table_list = data.table_list;
                 // Post-processing.
-                self.process_tables();
+                self.process_dynamic_tables();
                 self.create_tables();
             }
         );
@@ -133,7 +134,7 @@ var app = function() {
     };
 
 
-    self.process_tables = function() {
+    self.process_dynamic_tables = function() {
         enumerate(self.vue.table_list);
         self.vue.table_list.map(function (e) {
             // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
@@ -150,6 +151,22 @@ var app = function() {
             // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
         });
     };
+    // self.process_entered = function() {
+    //     enumerate(self.vue.recorded_tables);
+    //     self.vue.recorded_tables.map(function (e) {
+    //         // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
+    //         Vue.set(e, '_entry'); // keeps track of each category's daily entry
+    //         // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
+    //     });
+    // };
+    // self.process_unentered = function() {
+    //     enumerate(self.vue.not_recorded_tables);
+    //     self.vue.not_recorded_tables.map(function (e) {
+    //         // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
+    //         Vue.set(e, '_entry'); // keeps track of each category's daily entry
+    //         // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
+    //     });
+    // };
 
     self.get_dash_info = function () {
         var all_tables = self.vue.table_list;
@@ -183,12 +200,23 @@ var app = function() {
             }
             self.vue.not_recorded_tables = unentered;
             console.log('unentered', unentered);
+            // self.process_unentered();
+            // self.process_entered();
+
             // self.process_user_tables();
         });
     };
 
-    self.add_entry = function () {
-
+    // call this function from the html with string depending on the table
+    // For example:
+    // add_entry(not_recorded_tables._idx)
+    self.add_entry = function (idx) {
+        var table = self.vue.not_recorded_tables[idx];
+        $.post(add_entry_url,{
+            table: JSON.stringify(table),
+        }, function(data){
+            console.log(data);
+        })
     }
     //
     // self.total = function(p){

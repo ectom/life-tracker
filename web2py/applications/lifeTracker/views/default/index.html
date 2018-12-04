@@ -35,6 +35,8 @@
 
     var get_dash_info_url = "{{=URL('api', 'get_dash_info', user_signature=True)}}";
 
+    var add_entry_url = "{{=URL('api', 'add_entry', user_signature=True)}}";
+
     var is_logged_in = {{= 'false' if auth.user is None else 'true' }};
     var user_email = "{{=auth.user.email}}";
 
@@ -105,16 +107,11 @@
                 <th>Unit</th>
               </tr>
               <!-- First Row -->
-              <tr>
-                <td>Water</td>
-                <td>2</td>
-                <td>Cups</td>
-              </tr>
-              <!-- Second Row -->
-              <tr>
-                <td>Walking</td>
-                <td>2000</td>
-                <td>Steps</td>
+              <tr v-for="row in not_recorded_tables">
+                <td>${row.table_title}</td>
+                <td><input v-model="row._entry" type="text" name="" value=""></td>
+                <td>${row.table_field}</td>
+                <td><button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button></td>
               </tr>
             </table>
           </br>
