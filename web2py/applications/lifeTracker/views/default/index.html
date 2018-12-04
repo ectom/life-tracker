@@ -7,16 +7,18 @@
 </script>
 
 <body>
-  {{if auth.user is None:}}
-  <h2>Sorry!</h2> <br>
-  <h4>You are not logged in. Please log in from down below or from the tab to continue with lifeTracker.</h4>
-  <br>
-    <p>
-      <a href="../default/user"><button>Press Here</button></a>
-    </p>
-    {{pass}}
-    {{if auth.user is not None:}}
-    <h4>Redirecting to lifeTracker...</h4>
-    <meta http-equiv="refresh" content="1;URL='lifeTracker'">
-    {{pass}}
+  <div class="check">
+    {{if auth.user is None:}}
+    <h2>Sorry!</h2> <br>
+    <h4>You are not logged in. Please log in from down below or from the tab to continue with lifeTracker.</h4>
+    <br>
+      <p>
+        <a href="../default/user"><button><i class="fa fa-sign-in"></i> Continue to Login</button></a>
+      </p>
+      {{pass}}
+      {{if auth.user is not None:}}
+      <h4>Redirecting to lifeTracker...</h4>
+      <meta http-equiv="refresh" content="1;URL='lifeTracker'">
+      {{pass}}
+  </div>
 </body>
