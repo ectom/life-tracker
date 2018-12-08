@@ -75,6 +75,28 @@ var app = function() {
         }
     };
 
+    self.add_value = function(idx, digit) {
+      var table_entry = self.vue.recorded_tables[idx]._entry;
+      console.log(table_entry, digit,"print something");
+
+      if(digit === '1'){
+        table_entry++;
+        console.log(table_entry);
+      }
+      if(digit === '5'){
+        table_entry = table_entry + 5;
+        console.log(table_entry);
+      }
+      if(digit === '10'){
+        table_entry = table_entry + 10;
+        console.log(table_entry);
+      }
+      if(digit === '20'){
+        table_entry = table_entry + 20;
+        console.log(table_entry);
+      }
+    };
+
     // adds table info to dynamic_dbs
     self.add_table = function() {
         // We disable the button, to prevent double submission.
@@ -251,6 +273,7 @@ var app = function() {
             get_dash_info: self.get_dash_info,
             add_entry: self.add_entry,
             add_entry_time: self.add_entry_time,
+            add_value: self.add_value,
         }
 
     });

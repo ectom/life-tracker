@@ -28,4 +28,4 @@ self.graph = new Vue({
     }
 })
 
-self.get_all_data('Chest', 'pushups')
+self.get_all_data('Walking', 'steps')

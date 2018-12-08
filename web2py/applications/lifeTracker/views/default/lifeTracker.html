@@ -35,6 +35,7 @@
     var get_dash_info_url = "{{=URL('api', 'get_dash_info', user_signature=True)}}";
     var add_entry_url = "{{=URL('api', 'add_entry', user_signature=True)}}";
     var add_entry_time_url = "{{=URL('api', 'add_entry_time', user_signature=True)}}";
+    // var update_entry_url = "{{=URL('api', 'update_entry', user_signature=True)}}";
     var is_logged_in = {{= 'false' if auth.user is None else 'true' }};
     var user_email = "{{=auth.user.email}}";
 </script>
@@ -124,7 +125,13 @@
                     <td>${row.table_title}</td>
                     <td>${row._entry}</td>
                     <td>${row.table_field}</td>
-                    <td><button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button></td>
+                    <td>
+                      <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
+                      <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '1')">Add 1</button>
+                      <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '5')">Add 5</button>
+                      <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '10')">Add 10</button>
+                      <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '20')">Add 20</button>
+                    </td>
                 </tr>
             </table>
             </br>
