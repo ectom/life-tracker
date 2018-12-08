@@ -40,7 +40,6 @@ def get_dynamic_table_list():
 def create_table():
     list = json.loads(request.vars.list)
     for table in list:
-        print table
         title = table['table_title']
         author = table['table_author']
         field = table['table_field']
@@ -58,31 +57,43 @@ def create_table():
 @auth.requires_signature()
 def get_dash_info():
     entries = []
+    empty = []
     now = datetime.datetime.now()
     tables = json.loads(request.vars.tables)
-    print tables
-    for table in tables:
-        title = table['table_title']
-        sql = 'SELECT * FROM "' + title + '" WHERE entry_time >= "' + str(now.date()) +' 00:00:00.000000" AND entry_time <= "' + str(now) + '"'
+    print 'ALL TABLES: ', tables
+    x = 0
+    i = 0
+    while i < len(tables):
+        title = tables[i]['table_title']
+        #     # sql = 'SELECT * FROM "' + title + '" WHERE entry_time >= "' + str(now.date()) +' 00:00:00.000000" AND entry_time <= "' + str(now) + '"'
+        #     # sql = 'SELECT * FROM "'+title+'" WHERE DATE(entry_time) = DATE("now", "-1 day")'
+        sql = 'SELECT * FROM "'+title+'" ORDER BY entry_time DESC LIMIT 1'
         entry_of_today = db.executesql(sql)
+        print title,':', entry_of_today
         if len(entry_of_today) > 0:
             x = dict(
                 author=entry_of_today[0][0],
-                table_field_value=entry_of_today[0][1],
+                _entry=entry_of_today[0][1],
                 entry_time=entry_of_today[0][2],
-                table_field=table['table_field'],
-                table_title=table['table_title']
+                table_field=tables[i]['table_field'],
+                table_title=tables[i]['table_title']
             )
             entries.append(x)
-        print entries
-    return response.json(dict(entries=entries))
-
+        else:
+            empty.append(tables[i])
+        i += 1
+    return response.json(dict(entries=entries, empty=empty))
 
 @auth.requires_signature()
 def add_entry():
     table = json.loads(request.vars.table)
-    print request.vars
-    return "ok"
+    title = table['table_title']
+    param = table['table_field']
+    author = table['table_author']
+    entry = str(table['_entry'])
+    time = str(get_current_time())
+    db.executesql('INSERT INTO "'+title+'" (author, '+param+', entry_time) VALUES ("'+author+'","'+entry+'", "'+time+'");')
+    return title
 
 
 # @auth.requires_signature()

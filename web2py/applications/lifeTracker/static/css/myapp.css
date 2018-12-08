@@ -39,3 +39,9 @@ div.main_content span.likers_list {
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 }
+.dropdown{
+    max-width: 50px;
+}
+.input{
+    min-width: 700px;
+}
