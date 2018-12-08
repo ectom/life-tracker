@@ -95,6 +95,13 @@ def add_entry():
     db.executesql('INSERT INTO "'+title+'" (author, '+param+', entry_time) VALUES ("'+author+'","'+entry+'", "'+time+'");')
     return title
 
+@auth.requires_signature()
+def get_all_data():
+    table = request.vars.table
+    field = request.vars.field
+    author = auth.user.email
+    list = db.executesql('SELECT entry_time, ' + field + ' FROM ' + table + ' WHERE author = "' + author +'"');
+    return response.json(dict(list=list))
 
 # @auth.requires_signature()
 # def set_thumb():
