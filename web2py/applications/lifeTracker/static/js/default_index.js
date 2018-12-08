@@ -1,4 +1,49 @@
-// This is the js for the default/index.html view.
+// dropdown menu for day
+$(function() {
+    var $select = $(".1-31");
+    for (i = 1; i <= 31; i++) {
+        var j = i;
+        if (j.toString().length === 1) {
+            j = "0" + j;
+        }
+        $select.append($('<option></option>').val(j).html(j))
+    }
+});
+
+//dropdown menu for year
+$(function() {
+    var $select = $(".year");
+    var x = new Date
+    var year = x.getFullYear();
+    for (i = year; i >= 1950; i--) {
+        $select.append($('<option></option>').val(i).html(i))
+    }
+});
+
+//dropdown for hour
+$(function() {
+    var $select = $(".0-23");
+    for (i = 0; i <= 23; i++) {
+        var j = i;
+        if (j.toString().length === 1) {
+            j = "0" + j;
+        }
+        $select.append($('<option></option>').val(j).html(j))
+    }
+});
+
+//dropdown for minute/second
+$(function() {
+    var $select = $(".0-59");
+    for (i = 0; i <= 59; i++) {
+        var j = i;
+        if (j.toString().length === 1) {
+            j = "0" + j;
+        }
+        $select.append($('<option></option>').val(j).html(j))
+    }
+});
+
 var app = function() {
     var self = {};
     Vue.config.silent = false; // show all warnings
@@ -12,39 +57,38 @@ var app = function() {
 
     // Enumerates an array.
     var enumerate = function(v) {
-        var k=0;
+        var k = 0;
         return v.map(function(e) {
             e._idx = k++;
             e._entry = null;
         });
     };
 
-    self.show_form = function(){
-      if(!self.vue.seen){
-        self.vue.seen = true;
-        console.log("seen is", self.vue.seen);
-      }
-      if(self.vue.seen === true){
-        $("#show_myform").show();
-        $(".add_tables").hide();
-      }
+    self.show_form = function() {
+        if (!self.vue.seen) {
+            self.vue.seen = true;
+            console.log("seen is", self.vue.seen);
+        }
+        if (self.vue.seen === true) {
+            $("#show_myform").show();
+            $(".add_tables").hide();
+        }
     };
 
     // adds table info to dynamic_dbs
-    self.add_table = function () {
+    self.add_table = function() {
         // We disable the button, to prevent double submission.
         $.web2py.disableElement($("#add-table"));
         var table_title = self.vue.table_title; // Makes a copy
         var table_field = self.vue.table_field;
         var table_type = self.vue.table_type;
 
-        $.post(add_table_url,
-            {
+        $.post(add_table_url, {
                 table_title: self.vue.table_title,
                 table_field: self.vue.table_field,
                 table_type: self.vue.table_type
             },
-            function (data) {
+            function(data) {
                 // Re-enable the button.
                 $.web2py.enableElement($("#add-post"));
                 // Clears the form.
@@ -64,8 +108,9 @@ var app = function() {
                 $("#show_myform").hide();
                 $(".add_tables").show();
                 console.log("seen is", self.vue.seen);
+                self.get_dynamic_tables();
             });
-            console.log('js');
+        console.log('js');
         // If you put code here, it is run BEFORE the call comes back.
         // hide();
     };
@@ -101,22 +146,21 @@ var app = function() {
     self.create_tables = function() {
         console.log(self.vue.table_list);
         var list = [];
-        for(var i = 0; i < self.vue.table_list.length; i++){
-            if(self.vue.table_list[i].created == 'False'){
+        for (var i = 0; i < self.vue.table_list.length; i++) {
+            if (self.vue.table_list[i].created == 'False') {
                 list.push(self.vue.table_list[i]);
             }
         }
-        $.post(create_table_url,
-            {
-                list: JSON.stringify(list),
-            });
+        $.post(create_table_url, {
+            list: JSON.stringify(list),
+        });
         self.get_dash_info();
     };
 
 
     self.process_dynamic_tables = function() {
         enumerate(self.vue.table_list);
-        self.vue.table_list.map(function (e) {
+        self.vue.table_list.map(function(e) {
             // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
             // Vue.set(e, '_gray_thumb'); //keeps track of when thumbs are supposed to be gray
             // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
@@ -125,7 +169,7 @@ var app = function() {
 
     self.process_user_tables = function() {
         enumerate(self.vue.user_tables);
-        self.vue.user_tables.map(function (e) {
+        self.vue.user_tables.map(function(e) {
             // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
             Vue.set(e, '_entry'); // keeps track of each category's daily entry
             // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
@@ -148,207 +192,43 @@ var app = function() {
     //     });
     // };
 
-    self.get_dash_info = function () {
+    self.get_dash_info = function() {
         var all_tables = self.vue.table_list;
         var tables = [];
         for (var i = 0; i < all_tables.length; i++) {
-            if (user_email === all_tables[i].table_author){
+            if (user_email === all_tables[i].table_author) {
                 tables.push(all_tables[i]);
             }
         }
         self.vue.user_tables = tables;
-        $.post(get_dash_info_url,{
+        console.log(tables);
+        $.post(get_dash_info_url, {
             tables: JSON.stringify(tables)
-        }, function(data){
+        }, function(data) {
             // data is a list consisting of all of today's entries
             self.vue.recorded_tables = data.entries;
-            var unentered = [];
-            const entries = data.entries;
-            if(entries.length > 0){
-                for(var i = 0; i < entries.length; i++) {
-                    const entered_title = entries[i]['table_title'];
-                    for(var j = 0; j < self.vue.user_tables.length; j++) {
-                        console.log(entered_title);
-                        if (entered_title != self.vue.user_tables[j].table_title){
-                            const x = self.vue.user_tables[j];
-                            unentered.push(x);
-                        }
-                    }
-                }
-            } else {
-                unentered = self.vue.user_tables
-            }
-            self.vue.not_recorded_tables = unentered;
-            console.log('unentered', unentered);
-            // self.process_unentered();
-            // self.process_entered();
+            self.vue.not_recorded_tables = data.empty;
+            console.log(data.entries, data.empty);
 
-            // self.process_user_tables();
         });
     };
 
     // call this function from the html with string depending on the table
     // For example:
     // add_entry(not_recorded_tables._idx)
-    self.add_entry = function (idx) {
+    self.add_entry = function(idx) {
+        console.log(idx);
         var table = self.vue.not_recorded_tables[idx];
-        $.post(add_entry_url,{
-            table: JSON.stringify(table),
-        }, function(data){
+        console.log(table)
+        $.post(add_entry_url, {
+            table: JSON.stringify(table)
+        }, function(data) {
             console.log(data);
+            self.vue.recorded_tables.push(table);
+            self.vue.not_recorded_tables.splice(idx, 1)
         })
     }
-    //
-    // self.total = function(p){
-    //     $.post(get_thumbs_url, { post_id: p.id }, function (data) {
-    //         p._total = data.total;
-    //     })
-    // };
-    //
-    // self.thumbs_up_over = function(post_idx, thumbs_up_idx) {
-    //     var p = self.vue.post_list[post_idx];
-    //     console.log(p, thumbs_up_idx);
-    //     console.log(p.thumb);
-    //     if(p.thumb === 'd'){
-    //         p._gray_thumb = 'u';
-    //     }
-    //     else if(p.thumb === 'u'){
-    //         p._num_thumb_display = 'u';
-    //         p._gray_thumb = 'd';
-    //     }
-    //     else{
-    //         p._gray_thumb = 'u';
-    //     }
-    // };
-    //
-    // self.thumbs_down_over = function(post_idx, thumbs_down_idx) {
-    //     var p = self.vue.post_list[post_idx];
-    //     console.log(p, thumbs_down_idx);
-    //     console.log(p.thumb);
-    //     if(p.thumb === 'u'){
-    //         p._gray_thumb = 'd';
-    //     }
-    //     else if(p.thumb === 'd'){
-    //         p._num_thumb_display = 'd';
-    //         p._gray_thumb = 'u';
-    //     }
-    //     else{
-    //         p._gray_thumb = 'd';
-    //     }
-    // };
-    //
-    // self.thumbs_up_out = function(post_idx, thumbs_up_idx) {
-    //     var p = self.vue.post_list[post_idx];
-    //     console.log(p, thumbs_up_idx);
-    //     self.vue.thumbs_up_state = false;
-    //     p._num_thumb_display = p.thumb;
-    //     p._gray_thumb = 'null';
-    // };
-    //
-    // self.thumbs_down_out = function(post_idx, thumbs_downdown_idx) {
-    //     var p = self.vue.post_list[post_idx];
-    //     self.vue.thumbs_down_state = false;
-    //     p._num_thumb_display = p.thumb;
-    //     p._gray_thumb = null;
-    // };
-    //
-    // self.show = function(){
-    //     if(self.vue.isHidden){
-    //         self.vue.isHidden = false;
-    //     }
-    //     if (is_logged_in && !self.vue.isHidden) {
-    //         $(".add_posts").show();
-    //         $(".add_post_button").hide();
-    //     }
-    // };
-    //
-    // function hide(){
-    //     if(!self.vue.isHidden){
-    //         self.vue.isHidden = true;
-    //     }
-    //     if (is_logged_in && self.vue.isHidden) {
-    //         $(".add_posts").hide();
-    //         $(".add_post_button").show();
-    //     }
-    // };
-    // // thumb keeps track of the gray thumb
-    // // vote confirms which thumb has been clicked
-    // self.set_thumb = function(post_idx, thumb, vote) {
-    //     // The user has set this as the number of stars for the post.
-    //     var p = self.vue.post_list[post_idx];
-    //     if(thumb === 'u' && p._num_thumb_display === 'd' && vote === 'down'){
-    //         p.thumb = null;
-    //         console.log('when black thumbs down clicked');
-    //     }
-    //     else if(thumb === 'd' && p._num_thumb_display === 'u' && vote === 'up'){
-    //         p.thumb = null;
-    //         console.log('when black thumbs up clicked');
-    //     }
-    //     else{
-    //         p.thumb = thumb;
-    //     }
-    //     // Sends the rating to the server.
-    //     $.post(set_thumb_url, {
-    //         post_id: p.id,
-    //         thumb: p.thumb
-    //     }, function(){
-    //         self.total(p);
-    //     });
-    // };
-    //
-    // self.edit = function(post_id){
-    //     var p = self.vue.post_list[post_id];
-    //     p._editing = true;
-    //     console.log('edit', p._editing);
-    // }
-    //
-    // self.edited = function(post_id){
-    //     var p = self.vue.post_list[post_id];
-    //     p._editing = false;
-    //     console.log('edited', p.post_content);
-    //     $.post(edit_post_url,
-    //         // Data we are sending.
-    //         {
-    //             id: post_id,
-    //             post_content: p.post_content
-    //         },
-    //         // What do we do when the post succeeds?
-    //         function (data) {
-    //             console.log(data);
-    //
-    //             // Shows updated post
-    //             // self.vue.post_list[post_id].post_content = data.post_content;
-    //             // We re-enumerate the array.
-    //             self.process_tables();
-    //         });
-    // }
-    //
-    // // Complete as needed.
-    // self.vue = new Vue({
-    //     el: "#vuediv",
-    //     delimiters: ['${', '}'],
-    //     unsafeDelimiters: ['!{', '}'],
-    //     data: {
-    //         form_title: "",
-    //         form_content: "",
-    //         post_list: [],
-    //         thumbs_list: [],
-    //         isHidden: true,
-    //         // _editing: false
-    //     },
-    //     methods: {
-    //         add_post: self.add_post,
-    //         show: self.show,
-    //         edit: self.edit,
-    //         edited: self.edited,
-    //         thumbs_up_over: self.thumbs_up_over,
-    //         thumbs_down_over: self.thumbs_down_over,
-    //         thumbs_up_out: self.thumbs_up_out,
-    //         thumbs_down_out: self.thumbs_down_out,
-    //         set_thumb: self.set_thumb,
-    //     }
-    //
-    // });
+
     self.vue = new Vue({
         el: "#vuediv",
         delimiters: ['${', '}'],
@@ -362,7 +242,6 @@ var app = function() {
             not_recorded_tables: [], // the entries that the user has not entered yet for the day
             recorded_tables: [], // all tables that have entries for the day
             seen: false, //toggle add table form
-
         },
         methods: {
             add_table: self.add_table,
@@ -371,6 +250,7 @@ var app = function() {
             show_form: self.show_form,
             get_dash_info: self.get_dash_info,
             add_entry: self.add_entry,
+            add_entry_time: self.add_entry_time,
         }
 
     });
@@ -388,4 +268,6 @@ var APP = null;
 
 // This will make everything accessible from the js console;
 // for instance, self.x above would be accessible as APP.x
-jQuery(function(){APP = app();});
+jQuery(function() {
+    APP = app();
+});
