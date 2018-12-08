@@ -3,17 +3,29 @@
 {{end}}
 <!DOCTYPE html>
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script src="https://unpkg.com/chart.js@2.7.2/dist/Chart.bundle.js"></script>
+<script src="https://unpkg.com/vue-chartkick@0.5.0"></script>
+<script type="text/javascript">
+    var get_all_data_url = "{{=URL('api', 'get_all_data', user_signature=True)}}";
+</script>
 <html>
-  <body>
 
-  <div class="Category_Title">
-    <h2>Category Title</h2>
-  </div>
-  <div class="back">
-    <p>
-      <a href="../default/lifeTracker"><button>Go back</button></a>
-    </p>
-  </div>
+<body>
+    <div id='graph' class="">
+        <div class="Category_Title">
+            <h2>Category Title</h2>
+        </div>
 
-  </body>
+        <div class="">
+            <line-chart :data="chartData"></line-chart>
+        </div>
+
+        <div class="back">
+            <p><a href="../default/lifeTracker"><button>Go back</button></a></p>
+        </div>
+    </div>
+
+</body>
+
 </html>
+<script src="{{=URL('static', 'js/graph.js')}}"></script>
