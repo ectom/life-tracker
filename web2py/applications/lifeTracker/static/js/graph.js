@@ -12,7 +12,7 @@ self.get_all_data = function (table_name, field) {
         for(var i = 0; i < data.list.length; i++){
             data.list[i][0] = data.list[i][0].substring(0,10);
         }
-        self.graph.chartData = data.list
+        self.graph.chartData = data.list;
     });
 }
 
