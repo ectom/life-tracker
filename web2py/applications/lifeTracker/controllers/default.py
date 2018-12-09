@@ -39,6 +39,8 @@ def graph():
     """
     return dict()
 
+def app():
+    return dict()
 
 def lifeTracker():
     return dict()

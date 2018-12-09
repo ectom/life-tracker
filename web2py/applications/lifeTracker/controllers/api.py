@@ -102,7 +102,7 @@ def get_all_data():
     field = request.vars.field
     author = auth.user.email
     list = db.executesql('SELECT entry_time, ' + field + ' FROM ' + table + ' WHERE author = "' + author +'"');
-    return response.json(dict(list=list))
+    return response.json(dict(list=list,title=table))
 
 # @auth.requires_signature()
 # def set_thumb():
