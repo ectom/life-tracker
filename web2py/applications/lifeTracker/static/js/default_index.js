@@ -229,6 +229,11 @@ var app = function() {
         })
     }
 
+    self.pass_data = function (title, field) {
+        var url = 'graph?title='+title+'&field='+field;
+        document.getElementById(title).href = url;
+    }
+
     self.vue = new Vue({
         el: "#vuediv",
         delimiters: ['${', '}'],
@@ -251,16 +256,16 @@ var app = function() {
             get_dash_info: self.get_dash_info,
             add_entry: self.add_entry,
             add_entry_time: self.add_entry_time,
+            pass_data: self.pass_data
         }
-
     });
 
 
     // Gets the tables with info.
     self.get_dynamic_tables();
     return self;
-};
 
+};
 var APP = null;
 
 // No, this would evaluate it too soon.

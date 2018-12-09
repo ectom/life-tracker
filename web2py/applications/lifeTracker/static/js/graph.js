@@ -9,11 +9,13 @@ self.get_all_data = function (table_name, field) {
         console.log(data.list);
         for(var i = 0; i < data.list.length; i++){
             data.list[i][0] = data.list[i][0].substring(0,10);
+            self.graph.title = data.title;
         }
         self.graph.chartData = data.list;
     });
 };
-// dropdown menu for chart
+
+// tab menu for chart
 self.chart = function (evt, chart) {
   // Declare all variables
   var i, tabcontent, tablinks;
@@ -41,6 +43,7 @@ self.graph = new Vue({
     unsafeDelimiters: ['!{', '}'],
     data: {
       chartData: [],
+      title: '',
       // lineChart: false,
       // columnChart: false
     },
@@ -50,4 +53,14 @@ self.graph = new Vue({
     }
 })
 
-self.get_all_data('Chest', 'pushups')
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+var title = getUrlVars()["title"];
+var field = getUrlVars()["field"];
+
+self.get_all_data(title, field)
