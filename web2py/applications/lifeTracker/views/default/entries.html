@@ -1,0 +1,50 @@
+{{extend 'layout.html'}}
+{{block head}}
+{{end}}
+<!DOCTYPE html>
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script src="https://unpkg.com/chart.js@2.7.2/dist/Chart.bundle.js"></script>
+<script src="https://unpkg.com/vue-chartkick@0.5.0"></script>
+<script type="text/javascript">
+    var get_all_data_url = "{{=URL('api', 'get_all_data', user_signature=True)}}";
+    var edit_entry_url = "{{=URL('api', 'edit_entry', user_signature=True)}}";
+</script>
+<html>
+
+
+<body>
+    <div id='graph' class="">
+        <div class="Category_Title">
+            <h2>${title} - ${field}</h2>
+        </div>
+        <div class="back">
+            <p><a href="../default/lifeTracker"><button>Back To Dashboard</button></a></p>
+        </div>
+        <div class="">
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>${field}</th>
+                    <th>Options</th>
+                </tr>
+                <tr v-for="row in chartData">
+                    <td>${row['hour']}</td>
+                    <td>${row['time']}</td>
+                    <td v-if="!row._editing">${row['entry']}</td>
+                    <td v-if="row._editing">
+                        <textarea v-model="row['entry']"></textarea>
+                    </td>
+                    <td v-if="!row._editing"><button type="button" v-on:click="edit_entry(row.idx)" name="button">Edit</button></td>
+                    <td v-if="row._editing"><button type="button" v-on:click="update_entry(row.idx)" name="button">Update</button></td>
+                    <td v-if="row._editing"><button type="button" v-on:click="cancel_entry(row.idx)" name="button">Cancel</button></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+<script src="{{=URL('static', 'js/entries.js')}}"></script>
