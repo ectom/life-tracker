@@ -34,12 +34,9 @@ def user():
 
 
 def graph():
-    """
-    allows to connect with graph.html
-    """
     return dict()
 
-def app():
+def entries():
     return dict()
 
 def lifeTracker():

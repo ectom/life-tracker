@@ -112,7 +112,7 @@
                 <td>${row.table_field}</td>
                 <td>
                     <button v-if="row.table_type === 'TIMESTAMP'" type="button" v-on:click="add_entry_time(row._idx)" name="button">Add Entry</button>
-                    <button v-else type="button" v-on:click="add_entry(row._idx)" name="button">${row._idx} Add Entry</button>
+                    <button v-else type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
                 </td>
             </tr>
             <tr v-for="row in recorded_tables">
@@ -121,7 +121,8 @@
                 <td>${row.table_field}</td>
                 <td>
                     <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
-                    <a href="" v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field)">${row.table_title} Graph</a>
+                    <a href="" v-if="row.table_type === 'TEXT'" v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Entries</a>
+                    <a href="" v-else v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Graph</a>
                 </td>
             </tr>
         </table>

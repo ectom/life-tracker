@@ -1,10 +1,12 @@
 var self = {};
 Vue.config.silent = false; // show all warnings
 
-self.get_all_data = function (table_name, field) {
+self.get_all_data = function (table_name, field, table_type) {
+    self.graph.field = field;
     $.post(get_all_data_url,{
         table: table_name,
-        field: field
+        field: field,
+        type: table_type
     }, function (data) {
         console.log(data.list);
         for(var i = 0; i < data.list.length; i++){
@@ -17,22 +19,15 @@ self.get_all_data = function (table_name, field) {
 
 // tab menu for chart
 self.chart = function (evt, chart) {
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
+  var tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
+  for (var i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
-
-  // Get all elements with class="tablinks" and remove the class "active"
   tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
+  for (var i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(chart).style.display = "block";
   evt.currentTarget.className += " active";
 }
@@ -44,8 +39,7 @@ self.graph = new Vue({
     data: {
       chartData: [],
       title: '',
-      // lineChart: false,
-      // columnChart: false
+      field: '',
     },
     methods: {
         get_all_data: self.get_all_data,
@@ -62,5 +56,6 @@ function getUrlVars() {
 }
 var title = getUrlVars()["title"];
 var field = getUrlVars()["field"];
+var table_type = getUrlVars()["table_type"];
 
-self.get_all_data(title, field)
+self.get_all_data(title, field, table_type);

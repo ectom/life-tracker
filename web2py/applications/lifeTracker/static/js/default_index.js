@@ -229,8 +229,13 @@ var app = function() {
         })
     }
 
-    self.pass_data = function (title, field) {
-        var url = 'graph?title='+title+'&field='+field;
+    self.pass_data = function (title, field, table_type) {
+        var url;
+        if (table_type === 'TEXT') {
+            url = 'entries?title='+title+'&field='+field+'&table_type='+table_type;
+        } else {
+            url = 'graph?title='+title+'&field='+field+'&table_type='+table_type;
+        }
         document.getElementById(title).href = url;
     }
 

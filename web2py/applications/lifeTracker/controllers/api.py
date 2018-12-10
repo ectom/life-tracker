@@ -46,7 +46,7 @@ def create_table():
         type = table['table_type']
 
         # creates all tables
-        sql = 'CREATE TABLE "' + title + '" ("author" varchar(255), ' + field + ' ' + type + ', "entry_time" TIMESTAMP)'
+        sql = 'CREATE TABLE "' + title + '" ("author" varchar(255), ' + field + ' ' + type + ', "entry_time" TIMESTAMP, id INTEGER PRIMARY KEY AUTOINCREMENT)'
         db.executesql(sql)
 
         db((db.dynamic_dbs.table_title == title)).update(
@@ -101,9 +101,15 @@ def get_all_data():
     table = request.vars.table
     field = request.vars.field
     author = auth.user.email
-    list = db.executesql('SELECT entry_time, ' + field + ' FROM ' + table + ' WHERE author = "' + author +'"');
+    list = db.executesql('SELECT entry_time, ' + field + ', id FROM ' + table + ' WHERE author = "' + author +'"');
     return response.json(dict(list=list,title=table))
 
+@auth.requires_signature()
+def edit_entry():
+    entry = json.loads(request.vars.entry)
+    title = request.vars.title
+    field = request.vars.field
+    db.executesql('UPDATE "' + title + '" SET "' + field + '"="' + entry['entry'] + '" WHERE author = "'+auth.user.email + '" AND id = "' + str(entry['id']) + '"')
 # @auth.requires_signature()
 # def set_thumb():
 #     post_id = int(request.vars.post_id)
