@@ -4,30 +4,22 @@
 <meta charset='utf-8'>
 
 {{block head}}
-<script src="{{=URL('static', 'js/vue.js')}}"></script>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.2/d3.js"></script>
-<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
-
-
 <style>
     body {font-family: Arial; line-height: 160%; font-size: 12px; }
-  ul {list-style: none; margin: 0; padding: 0; }
-  li { min-width: 80px; padding: 10px; margin: 0;}
-  input {border: 1px dotted #ccc; background: white; font-family: Arial; padding: 10px 20px; font-size: 12px; margin: 20px 10px 20px 0; color: black;}
-  input:focus { background-color:#ffe4b5; outline: none;}
-  tr:nth-child(even) {background-color: #f2f2f2;}
-  th{
-    background-color: #000000;
-    color: white;
-  }
-  th, td {
-    padding: 15px;
-    text-align: left;
-  }
+    ul {list-style: none; margin: 0; padding: 0; }
+    li { min-width: 80px; padding: 10px; margin: 0;}
+    input {border: 1px dotted #ccc; background: white; font-family: Arial; padding: 10px 20px; font-size: 12px; margin: 20px 10px 20px 0; color: black;}
+    input:focus { background-color:#ffe4b5; outline: none;}
+    tr:nth-child(even) {background-color: #f2f2f2;}
+    th{
+        background-color: #000000;
+        color: white;
+    }
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
 </style>
-
-
 <script>
     var add_table_url = "{{=URL('api', 'add_table', user_signature=True)}}";
     var get_dynamic_table_list_url = "{{=URL('api', 'get_dynamic_table_list')}}";
@@ -39,123 +31,100 @@
     var user_email = "{{=auth.user.email}}";
 </script>
 {{end}}
-
-<body>
-    <div class="main_content">
-        <div id="vuediv" class="display:none">
-            <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
-            <button class="add_tables" v-on:click="show_form"><i class="fa fa-plus-circle"></i> Add Category</button>
-
-            <form name="myform" onSubmit="return handleClick()">
-                <div id="show_myform" style="display:none">
-                    <div class="add_table">
-                        <div class="container form_row">
-                            <div class="label quarter">
-                                Category Title:
+    <body>
+        <div class="main_content">
+            <div id="vuediv" class="display:none">
+                <button class="add_tables" v-on:click="show_form"><i class="fa fa-plus-circle"></i> Add Category</button>
+                <form name="myform" onSubmit="return handleClick()">
+                    <div id="show_myform" style="display:none">
+                        <div class="add_table">
+                            <div class="container form_row">
+                                <div class="label quarter">
+                                    Category Title:
+                                </div>
+                                <div class="form threequarters">
+                                    <input type="text" v-model="table_title" placeholder="Enter the category title (i.e. water, walking, sleep)" />
+                                </div>
                             </div>
-                            <div class="form threequarters">
-                                <input type="text" id="myCategory" v-model="table_title" placeholder="Enter the category title (i.e. water, walking, sleep)" />
+                            <div class="container form_row">
+                                <div class="label quarter">
+                                    Field Name:
+                                </div>
+                                <div class="form threequarters">
+                                    <input type="text" v-model="table_field" placeholder="Enter the name of the field you want to track (No Spaces, use underscore i.e. cups, steps, heart_rate)">
+                                    </input>
+                                </div>
                             </div>
-                        </div>
-                        <div class="container form_row">
-                            <div class="label quarter">
-                                Field Name:
+                            <div class="container form_row">
+                                <div class="label quarter">
+                                    Field Type:
+                                </div>
+                                <div class="form threequarters">
+                                    <select type="text" v-model="table_type" text="Field Type">
+                                        <option disabled selected value> -- select an option -- </option>
+                                        <option value="INTEGER">INTEGER</option>
+                                        <option value="DECIMAL">DECIMAL</option>
+                                        <option value="TEXT">TEXT</option>
+                                        <option value="BOOLEAN">BOOLEAN</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form threequarters">
-                                <input type="text" id="myField" v-model="table_field" placeholder="Enter the name of the field you want to track (No Spaces, use underscore i.e. cups, steps, heart_rate)">
-                                </input>
-                            </div>
-                        </div>
-                        <div class="container form_row">
-                            <div class="label quarter">
-                                Field Type:
-                            </div>
-                            <div class="form threequarters">
-                                <select type="text" id="myType" v-model="table_type" text="Field Type">
-                                    <option disabled selected value> -- select an option -- </option>
-                                    <option value="INTEGER">INTEGER</option>
-                                    <option value="DECIMAL">DECIMAL</option>
-                                    <option value="TEXT">TEXT</option>
-                                    <option value="BOOLEAN">BOOLEAN</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="container form_row">
-                            <div class="quarter"></div>
-                            <div class="threequarters">
-                                <div class="submit">
-                                    <button id="add-table" v-on:click="add_table"><i class="fa fa-caret-down"></i>Submit</button>
+                            <div class="container form_row">
+                                <div class="quarter"></div>
+                                <div class="threequarters">
+                                    <div class="submit">
+                                        <button id="add-table" v-on:click="add_table"><i class="fa fa-caret-down"></i>Submit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
-
-            <!-- To Display Table with Columns -->
-            <br>
-            <table v-if="is_logged_in">
-                <!-- Column Titles -->
-                <tr>
-                    <th>Category </th>
-                    <th>Today's Value</th>
-                    <th>Unit</th>
-                    <th>Options</th>
-                </tr>
-                <!-- First Row -->
-                <tr v-for="row in not_recorded_tables">
-                    <td>${row.table_title}</td>
-                    <td class="input" v-if="row.table_type === 'INTEGER' || row.table_type === 'DECIMAL'"><input v-model="row._entry" type="number" name="" value=""></td>
-                    <td class="input" v-if="row.table_type === 'TEXT'"><input v-model="row._entry" type="text" name="" value=""></td>
-                    <td class="input" v-if="row.table_type === 'BOOLEAN'">
-                        <select v-model="row._entry" name="" value="">
-                            <option disabled selected value> --- </option>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
-                    </td>
-                    <td>${row.table_field}</td>
-                    <td>
-                        <button v-if="row.table_type === 'TIMESTAMP'" type="button" v-on:click="add_entry_time(row._idx)" name="button">Add Entry</button>
-                        <button v-else type="button" v-on:click="add_entry(row._idx)" name="button">${row._idx} Add Entry</button>
-                    </td>
-                </tr>
-                <tr v-for="row in recorded_tables">
-                    <td>${row.table_title}</td>
-                    <td>${row._entry}</td>
-                    <td>${row.table_field}</td>
-                    <td><button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button></td>
-                </tr>
-            </table>
-            </br>
-
-            <b>Recorded: </b> ${recorded_tables} <br>
-            <b>Not Recorded: </b>${not_recorded_tables}
-
-
-            <!-- Navigates to graph.html -->
-            <div id="hello">
-                <p>
-                    <a href="../default/graph.html"><button>Check Graph</button></a>
-                </p>
+                </form>
+                <!-- To Display Table with Columns -->
+                <br>
+                <table v-if="is_logged_in">
+                    <!-- Column Titles -->
+                    <tr>
+                        <th>Category </th>
+                        <th>Today's Value</th>
+                        <th>Unit</th>
+                        <th>Options</th>
+                    </tr>
+                    <!-- <a href="/lifeTracker/default/graph/:row.table_title/:row.table_field"> -->
+                    <!-- First Row -->
+                    <tr v-for="row in not_recorded_tables">
+                        <td>${row.table_title}</td>
+                        <td class="input" v-if="row.table_type === 'INTEGER' || row.table_type === 'DECIMAL'"><input v-model="row._entry" type="number" name="" value=""></td>
+                        <td class="input" v-if="row.table_type === 'TEXT'"><input v-model="row._entry" type="text" name="" value=""></td>
+                        <td class="input" v-if="row.table_type === 'BOOLEAN'">
+                            <select v-model="row._entry" name="" value="">
+                                <option disabled selected value> --- </option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </td>
+                        <td>${row.table_field}</td>
+                        <td>
+                            <button v-if="row.table_type === 'TIMESTAMP'" type="button" v-on:click="add_entry_time(row._idx)" name="button">Add Entry</button>
+                            <button v-else type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
+                        </td>
+                    </tr>
+                    <tr v-for="row in recorded_tables">
+                        <td>${row.table_title}</td>
+                        <td>${row._entry}</td>
+                        <td>${row.table_field}</td>
+                        <td>
+                            <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
+                            <a href="" v-if="row.table_type === 'TEXT'" v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Entries</a>
+                            <a href="" v-else v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Graph</a>
+                        </td>
+                    </tr>
+                </table>
+                </br>
+                <b>Recorded: </b> ${recorded_tables} <br>
+                <b>Not Recorded: </b>${not_recorded_tables}
             </div>
-
         </div>
-    </div>
-
-    <script>
-        function handleClick(event) {
-            console.log(document.getElementById("myCategory").value)
-            console.log(document.getElementById("myField").value)
-            console.log(document.getElementById("myType").value)
-            return false;
-        }
-    </script>
-
-    <ul></ul>
-
-
-</body>
-
+    </body>
 </html>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

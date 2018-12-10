@@ -46,7 +46,7 @@ def create_table():
         type = table['table_type']
 
         # creates all tables
-        sql = 'CREATE TABLE "' + title + '" ("author" varchar(255), ' + field + ' ' + type + ', "entry_time" TIMESTAMP)'
+        sql = 'CREATE TABLE "' + title + '" ("author" varchar(255), ' + field + ' ' + type + ', "entry_time" TIMESTAMP, id INTEGER PRIMARY KEY AUTOINCREMENT)'
         db.executesql(sql)
 
         db((db.dynamic_dbs.table_title == title)).update(
@@ -67,7 +67,7 @@ def get_dash_info():
         title = tables[i]['table_title']
         #     # sql = 'SELECT * FROM "' + title + '" WHERE entry_time >= "' + str(now.date()) +' 00:00:00.000000" AND entry_time <= "' + str(now) + '"'
         #     # sql = 'SELECT * FROM "'+title+'" WHERE DATE(entry_time) = DATE("now", "-1 day")'
-        sql = 'SELECT * FROM "'+title+'" WHERE author = "' + auth.user.email + '" ORDER BY entry_time DESC LIMIT 1' 
+        sql = 'SELECT * FROM "'+title+'" WHERE author = "' + auth.user.email + '" ORDER BY entry_time DESC LIMIT 1'
         entry_of_today = db.executesql(sql)
         print title,':', entry_of_today
         if len(entry_of_today) > 0:
@@ -76,7 +76,8 @@ def get_dash_info():
                 _entry=entry_of_today[0][1],
                 entry_time=entry_of_today[0][2],
                 table_field=tables[i]['table_field'],
-                table_title=tables[i]['table_title']
+                table_title=tables[i]['table_title'],
+                table_type=tables[i]['table_type']
             )
             entries.append(x)
         else:
@@ -100,9 +101,15 @@ def get_all_data():
     table = request.vars.table
     field = request.vars.field
     author = auth.user.email
-    list = db.executesql('SELECT entry_time, ' + field + ' FROM ' + table + ' WHERE author = "' + author +'"');
-    return response.json(dict(list=list))
+    list = db.executesql('SELECT entry_time, ' + field + ', id FROM ' + table + ' WHERE author = "' + author +'"');
+    return response.json(dict(list=list,title=table))
 
+@auth.requires_signature()
+def edit_entry():
+    entry = json.loads(request.vars.entry)
+    title = request.vars.title
+    field = request.vars.field
+    db.executesql('UPDATE "' + title + '" SET "' + field + '"="' + entry['entry'] + '" WHERE author = "'+auth.user.email + '" AND id = "' + str(entry['id']) + '"')
 # @auth.requires_signature()
 # def set_thumb():
 #     post_id = int(request.vars.post_id)

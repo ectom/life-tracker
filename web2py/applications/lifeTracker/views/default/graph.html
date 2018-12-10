@@ -9,23 +9,32 @@
     var get_all_data_url = "{{=URL('api', 'get_all_data', user_signature=True)}}";
 </script>
 <html>
+    <body>
+        <div id='graph'>
+            <div class="Category_Title">
+                <h2>${title} - ${field}</h2>
+            </div>
+            <div class="back">
+                <p><a href="../default/lifeTracker"><button>Back To Dashboard</button></a></p>
+            </div>
 
-<body>
-    <div id='graph' class="">
-        <div class="Category_Title">
-            <h2>Category Title</h2>
+            <!-- tab links -->
+            <div class="tab">
+                <button class="tablinks" v-on:click="chart(event, 'line')">Line Chart</button>
+                <button class="tablinks" v-on:click="chart(event, 'area')">Area Chart</button>
+                <button class="tablinks" v-on:click="chart(event, 'column')">Column Chart</button>
+                <button class="tablinks" v-on:click="chart(event, 'bar')">Bar Chart</button>
+            </div>
+
+            <!-- charts -->
+            <div class="">
+                <div id="line" class="tabcontent"><line-chart :data="chartData"></line-chart></div>
+                <div id="column" class="tabcontent"><column-chart :data="chartData"></column-chart></div>
+                <div id="area" class="tabcontent"><area-chart :data="chartData"></area-chart></div>
+                <div id="bar" class="tabcontent"><bar-chart :data="chartData"></bar-chart></div>
+            </div>
         </div>
-
-        <div class="">
-            <line-chart :data="chartData"></line-chart>
-        </div>
-
-        <div class="back">
-            <p><a href="../default/lifeTracker"><button>Go back</button></a></p>
-        </div>
-    </div>
-
-</body>
-
+    </body>
 </html>
+<!-- <script src="{{=URL('static', 'js/default_index.js')}}"></script> -->
 <script src="{{=URL('static', 'js/graph.js')}}"></script>
