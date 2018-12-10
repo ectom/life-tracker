@@ -105,10 +105,18 @@ def get_all_data():
     list = db.executesql('SELECT entry_time, ' + field + ' FROM ' + table + ' WHERE author = "' + author +'"');
     return response.json(dict(list=list))
 
-# @auth.requires_signatuer()
-# def update_entry():
-#     table = request.vars.table
-
+# updates the table entry for the buttons
+@auth.requires_signature()
+def update_entry():
+    table = json.loads(request.vars.table)
+    title = table['table_title']
+    param = table['table_field']
+    author = auth.user.email
+    entry = str(table['_entry'])
+    # sql = 'SELECT * FROM "'+title+'" WHERE author = "' + auth.user.email + '"
+    #     'UPDATE ''
+    list = db.executesql('UPDATE "'+title+'" SET '+param+' = "'+entry+'" WHERE author = "'+author+'" ');
+    return entry
 
 # @auth.requires_signature()
 # def set_thumb():

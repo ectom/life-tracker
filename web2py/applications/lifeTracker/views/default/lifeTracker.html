@@ -35,7 +35,7 @@
     var get_dash_info_url = "{{=URL('api', 'get_dash_info', user_signature=True)}}";
     var add_entry_url = "{{=URL('api', 'add_entry', user_signature=True)}}";
     var add_entry_time_url = "{{=URL('api', 'add_entry_time', user_signature=True)}}";
-    // var update_entry_url = "{{=URL('api', 'update_entry', user_signature=True)}}";
+    var update_entry_url = "{{=URL('api', 'update_entry', user_signature=True)}}";
     var is_logged_in = {{= 'false' if auth.user is None else 'true' }};
     var user_email = "{{=auth.user.email}}";
 </script>

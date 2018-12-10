@@ -75,26 +75,38 @@ var app = function() {
         }
     };
 
+    //updates the data entry based on the button clicked
+    //Ex: Add 1 button will update the database entry by 1
     self.add_value = function(idx, digit) {
-      var table_entry = self.vue.recorded_tables[idx]._entry;
-      console.log(table_entry, digit,"print something");
-
+      var table = self.vue.recorded_tables[idx];
+      console.log(table, table._entry, digit);
+      //if selected button is 1, add 1
       if(digit === '1'){
-        table_entry++;
-        console.log(table_entry);
+        table._entry++;
+        console.log(table._entry);
       }
+      //if selected button is 5, add 5
       if(digit === '5'){
-        table_entry = table_entry + 5;
-        console.log(table_entry);
+        table._entry = table._entry + 5;
+        console.log(table._entry);
       }
+      //if selected button is 10, add 10
       if(digit === '10'){
-        table_entry = table_entry + 10;
-        console.log(table_entry);
+        table._entry = table._entry + 10;
+        console.log(table._entry);
       }
+      //if selected button is 20, add 20
       if(digit === '20'){
-        table_entry = table_entry + 20;
-        console.log(table_entry);
-      }
+        table._entry = table._entry + 20;
+        console.log(table._entry);
+      };
+
+      //stores in database
+      $.post(update_entry_url, {
+        table: JSON.stringify(table),
+      }, function(data){
+        console.log(data, "passed back");
+      });
     };
 
     // adds table info to dynamic_dbs
@@ -156,6 +168,7 @@ var app = function() {
             function(data) {
                 // I am assuming here that the server gives me a nice list
                 // of posts, all ready for display.
+                console.log(data);
                 self.vue.table_list = data.table_list;
                 // Post-processing.
                 self.process_dynamic_tables();
