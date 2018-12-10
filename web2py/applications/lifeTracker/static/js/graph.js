@@ -8,12 +8,22 @@ self.get_all_data = function (table_name, field, table_type) {
         field: field,
         type: table_type
     }, function (data) {
+        var all = data.list;
         console.log(data.list);
-        for(var i = 0; i < data.list.length; i++){
-            data.list[i][0] = data.list[i][0].substring(0,10);
+        if(table_type === 'BOOLEAN') {
+            for(var i = 0; i < all.length; i++){
+                if(all[i][1] === 'true') {
+                    all[i][1] = 1;
+                } else {
+                    all[i][1] = 0;
+                }
+            }
+        }
+        for(var i = 0; i < all.length; i++){
+            all[i][0] = all[i][0].substring(0,10);
             self.graph.title = data.title;
         }
-        self.graph.chartData = data.list;
+        self.graph.chartData = all;
     });
 };
 
