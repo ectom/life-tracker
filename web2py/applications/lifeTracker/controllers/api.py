@@ -93,7 +93,7 @@ def add_entry():
     param = table['table_field']
     author = table['table_author']
     entry = str(table['_entry'])
-    time = str(get_current_time())
+    time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     db.executesql('INSERT INTO "'+title+'" (author, '+param+', entry_time) VALUES ("'+author+'","'+entry+'", "'+time+'");')
     return title
 
@@ -113,9 +113,8 @@ def update_entry():
     param = table['table_field']
     author = auth.user.email
     entry = str(table['_entry'])
-    # sql = 'SELECT * FROM "'+title+'" WHERE author = "' + auth.user.email + '"
-    #     'UPDATE ''
-    list = db.executesql('UPDATE "'+title+'" SET '+param+' = "'+entry+'" WHERE author = "'+author+'" ');
+    entry_time = table['entry_time']
+    list = db.executesql('UPDATE "'+title+'" SET '+param+' = "'+entry+'" WHERE entry_time = "'+entry_time+'" ');
     return entry
 
 # @auth.requires_signature()

@@ -75,6 +75,44 @@ var app = function() {
         }
     };
 
+    self.update_entry_box = function(idx, entry) {
+      var table = self.vue.recorded_tables[idx];
+      console.log(idx, entry, table._entry);
+      if(idx === table._idx && self.vue.edit_form === true){
+        self.vue.edit_form = false;
+        self.vue.edit_id = "";
+        $("#displayed-entry").show();
+        $("#input-box").hide();
+        table._entry = entry;
+      }
+      $.post(update_entry_url, {
+        table: JSON.stringify(table),
+      }, function(data){
+        console.log(data, "passed back");
+      });
+    };
+
+    self.edit_entry = function(idx, entry){
+      var table = self.vue.recorded_tables[idx];
+      console.log("edit is clicked", idx, entry, table._idx);
+      console.log(self.vue.edit_form);
+      console.log(self.vue.edit_id);
+      if(idx === table._idx && self.vue.edit_form ===false){
+        self.vue.edit_form = true;
+        self.vue.edit_id = table._idx;
+        console.log(self.vue.edit_id);
+        $("#input-box").show();
+        $("#displayed-entry").hide();
+        console.log("clicked, id matches with the recorded table and edit form is changed", self.vue.edit_form);
+      }
+      // if(idx === table._idx && self.vue.edit_form === true){
+      //   self.vue.edit_form = false;
+      //   $("#displayed-entry").show();
+      //   // $("#input-box").hide();
+      //   console.log("clicked update entry, id matches with the recorded table", self.vue.edit_form);
+      // }
+    };
+
     //updates the data entry based on the button clicked
     //Ex: Add 1 button will update the database entry by 1
     self.add_value = function(idx, digit) {
@@ -277,6 +315,8 @@ var app = function() {
             not_recorded_tables: [], // the entries that the user has not entered yet for the day
             recorded_tables: [], // all tables that have entries for the day
             seen: false, //toggle add table form
+            edit_form: false,
+            edit_id: "",
         },
         methods: {
             add_table: self.add_table,
@@ -287,6 +327,8 @@ var app = function() {
             add_entry: self.add_entry,
             add_entry_time: self.add_entry_time,
             add_value: self.add_value,
+            edit_entry: self.edit_entry,
+            update_entry_box: self.update_entry_box,
         }
 
     });

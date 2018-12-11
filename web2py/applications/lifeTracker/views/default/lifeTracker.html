@@ -123,10 +123,14 @@
                 </tr>
                 <tr v-for="row in recorded_tables">
                     <td>${row.table_title}</td>
-                    <td>${row._entry}</td>
+                    <td>
+                      <span id="displayed-entry" v-show="row._idx !== self.edit_id">${row._entry}</span>
+                      <span id="input-box" style="display:none" v-show="row._idx === self.edit_id"><input v-model="row._entry"></input><button v-on:click="update_entry_box(row._idx, row._entry)">Update Entry</button></span>
+                    </td>
                     <td>${row.table_field}</td>
                     <td>
                       <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
+                      <button id="edit-button" v-on:click="edit_entry(row._idx, row._entry)"><i class="fa fa-pencil-square-o"></i> Edit Entry</button>
                       <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '1')">Add 1</button>
                       <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '5')">Add 5</button>
                       <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '10')">Add 10</button>
