@@ -61,6 +61,7 @@ var app = function() {
         return v.map(function(e) {
             e._idx = k++;
             e._entry = null;
+            e._edit = false;
         });
     };
 
@@ -75,15 +76,14 @@ var app = function() {
         }
     };
 
-    self.update_entry_box = function(idx, entry) {
+    self.update_entry_box = function(idx, entry, edit_status) {
       var table = self.vue.recorded_tables[idx];
-      console.log(idx, entry, table._entry);
-      if(idx === table._idx && self.vue.edit_form === true){
-        self.vue.edit_form = false;
-        self.vue.edit_id = "";
-        $("#displayed-entry").show();
-        $("#input-box").hide();
-        table._entry = entry;
+      console.log(idx, entry, table._edit, edit_status, "asdfew");
+      if(table._idx === idx && table._edit === edit_status){
+        table._edit = false;
+        console.log(table._entry, entry, table);
+        // $("#input-box").hide();
+        // $("#displayed-entry").show();
       }
       $.post(update_entry_url, {
         table: JSON.stringify(table),
@@ -92,25 +92,15 @@ var app = function() {
       });
     };
 
-    self.edit_entry = function(idx, entry){
+    self.edit_entry = function(idx, entry, edit_status){
       var table = self.vue.recorded_tables[idx];
-      console.log("edit is clicked", idx, entry, table._idx);
-      console.log(self.vue.edit_form);
-      console.log(self.vue.edit_id);
-      if(idx === table._idx && self.vue.edit_form ===false){
-        self.vue.edit_form = true;
-        self.vue.edit_id = table._idx;
-        console.log(self.vue.edit_id);
-        $("#input-box").show();
-        $("#displayed-entry").hide();
-        console.log("clicked, id matches with the recorded table and edit form is changed", self.vue.edit_form);
+      console.log(idx, entry, table._edit);
+      if(table._idx === idx && table._edit === edit_status ){
+        table._edit = true;
+        console.log("identical id", table._edit, table);
+        // $("#input-box").show();
+        // $("#displayed-entry").hide();
       }
-      // if(idx === table._idx && self.vue.edit_form === true){
-      //   self.vue.edit_form = false;
-      //   $("#displayed-entry").show();
-      //   // $("#input-box").hide();
-      //   console.log("clicked update entry, id matches with the recorded table", self.vue.edit_form);
-      // }
     };
 
     //updates the data entry based on the button clicked
@@ -245,25 +235,11 @@ var app = function() {
         self.vue.user_tables.map(function(e) {
             // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
             Vue.set(e, '_entry'); // keeps track of each category's daily entry
+            Vue.set(e, '_edit');
             // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
         });
     };
-    // self.process_entered = function() {
-    //     enumerate(self.vue.recorded_tables);
-    //     self.vue.recorded_tables.map(function (e) {
-    //         // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
-    //         Vue.set(e, '_entry'); // keeps track of each category's daily entry
-    //         // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
-    //     });
-    // };
-    // self.process_unentered = function() {
-    //     enumerate(self.vue.not_recorded_tables);
-    //     self.vue.not_recorded_tables.map(function (e) {
-    //         // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
-    //         Vue.set(e, '_entry'); // keeps track of each category's daily entry
-    //         // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
-    //     });
-    // };
+
 
     self.get_dash_info = function() {
         var all_tables = self.vue.table_list;
@@ -315,7 +291,7 @@ var app = function() {
             not_recorded_tables: [], // the entries that the user has not entered yet for the day
             recorded_tables: [], // all tables that have entries for the day
             seen: false, //toggle add table form
-            edit_form: false,
+            editing: false,
             edit_id: "",
         },
         methods: {

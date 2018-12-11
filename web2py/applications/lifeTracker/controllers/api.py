@@ -78,7 +78,8 @@ def get_dash_info():
                 table_field=tables[i]['table_field'],
                 table_title=tables[i]['table_title'],
                 table_type=tables[i]['table_type'],
-                _idx=tables[i]['_idx']
+                _idx=tables[i]['_idx'],
+                _edit=tables[i]['_edit'],
             )
             entries.append(x)
         else:
