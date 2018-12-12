@@ -26,22 +26,30 @@ input {
   color: black;
 }
 
+/* response when mouse hovers over any input */
 input:focus {
   background-color:#ffe4b5;
   outline: none;
 }
 
-
+/* in lifeTracker.html, background color of the rows in table iether even or odd */
 tr:nth-child(even) {
   background-color: #f2f2f2;
-
 }
+tr:nth-child(odd){
+  background-color: #e6e6e6;
+}
+
+/* in lifeTracker.html line 98, style of the table */
 table{
+  margin: auto;
+  width: 80%;
   border-collapse: collapse;
   border-radius: 8px;
   overflow: hidden;
 }
 
+/* in lifeTracker.html, style of the table titles */
 th{
   background-color: #33334d;
   font-size: 18px;
@@ -49,18 +57,22 @@ th{
   padding: 15px;
 }
 
+/* in lifeTracker.html, style of the rows in tables */
 td {
   padding: 15px;
   text-align: left;
 }
+
 ul.menu{
   font-size: 14px;
 }
 
+/* background color for header, footer, and body  */
 header.black, footer.black, body.black{
  background-color: #0a0a0f;
 }
 
+/* in layout.html, line 22, style of the flashing message when user is logged in or out */
 div.w2p_flash{
   background-color: #1f1f2e;
   color: white;
@@ -69,18 +81,22 @@ div.w2p_flash{
 
 div.main_content{
   padding: 16px;
+
 }
 
+/* in graph.html, line 15  */
 .Category_Title{
   padding: 10px;
 }
 
+/* in graph.html, line 19 */
 .graph_chart{
   border-radius: 5px;
   padding:10px;
   background-color: #f2f2f2;
 }
 
+/* in lifeTracker.html, line 51  */
 .lifetracker_form{
   border-radius: 3px;
   background-color: #f2f2f2;
@@ -88,11 +104,7 @@ div.main_content{
   font-size: 14px;
 }
 
-.response_message{
-  background-color: #9CA3AF;
-}
-
-
+/* style of any buttons in the app  */
 .button, .btn{
   background-color: #879FC8;
   color: white;
@@ -100,4 +112,34 @@ div.main_content{
   border-collapse: collapse;
   border-radius: 5px;
   overflow: hidden;
+
+}
+
+/* in user.html, line 5 */
+.user_info {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin: auto;
+  width: 50%;
+}
+/* in index.html, line 12 */
+.intro_box{
+  margin-top: 15%;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border: 5px solid #e6e6e6;
+  border-radius: 10px;
+}
+/* in index.html, centers the button for login */
+.intro_button{
+  text-align: center;
+}
+
+/* loads the image as the background for the page  */
+.index_main, .main_content{
+  background-image: url(../images/trianglify.png);
+  height: 100%;
+
 }
