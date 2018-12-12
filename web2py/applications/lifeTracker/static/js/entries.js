@@ -53,6 +53,9 @@ self.get_all_data = function (table_name, field, table_type) {
             list.push(row);
             self.graph.title = data.title;
         }
+        if(self.graph.title === '') {
+            self.graph.title = table_name
+        }
         self.graph.chartData = list;
         console.log(self.graph.chartData);
     })

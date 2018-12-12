@@ -64,6 +64,12 @@ var app = function() {
             e._edit = false;
         });
     };
+    var list_enumerate = function(v) {
+        var k = 0;
+        return v.map(function(e) {
+            e._idx = k++;
+        });
+    };
 
     self.show_form = function() {
         if (!self.vue.seen) {
@@ -76,15 +82,11 @@ var app = function() {
         }
     };
 
-    self.update_entry_box = function(idx, entry, edit_status) {
+    // hides edit box and updates db with new entry
+    self.update_entry_box = function(idx, entry, id) {
       var table = self.vue.recorded_tables[idx];
-      console.log(idx, entry, table._edit, edit_status, "asdfew");
-      if(table._idx === idx && table._edit === edit_status){
-        table._edit = false;
-        console.log(table._entry, entry, table);
-        // $("#input-box").hide();
-        // $("#displayed-entry").show();
-      }
+      console.log(table._entry, entry, table);
+      table._edit = false;
       $.post(update_entry_url, {
         table: JSON.stringify(table),
       }, function(data){
@@ -92,42 +94,43 @@ var app = function() {
       });
     };
 
-    self.edit_entry = function(idx, entry, edit_status){
-      var table = self.vue.recorded_tables[idx];
-      console.log(idx, entry, table._edit);
-      if(table._idx === idx && table._edit === edit_status ){
+    // shows edit textbox for dash
+    self.edit_entry = function(idx){
+        console.log(idx);
+        var table = self.vue.recorded_tables[idx];
         table._edit = true;
-        console.log("identical id", table._edit, table);
-        // $("#input-box").show();
-        // $("#displayed-entry").hide();
-      }
     };
 
     //updates the data entry based on the button clicked
     //Ex: Add 1 button will update the database entry by 1
     self.add_value = function(idx, digit) {
+        console.log(idx);
       var table = self.vue.recorded_tables[idx];
       console.log(table, table._entry, digit);
+
+      table._entry = Number(table._entry) + Number(digit);
+      console.log(table._entry);
+
       //if selected button is 1, add 1
-      if(digit === '1'){
-        table._entry++;
-        console.log(table._entry);
-      }
-      //if selected button is 5, add 5
-      if(digit === '5'){
-        table._entry = table._entry + 5;
-        console.log(table._entry);
-      }
-      //if selected button is 10, add 10
-      if(digit === '10'){
-        table._entry = table._entry + 10;
-        console.log(table._entry);
-      }
-      //if selected button is 20, add 20
-      if(digit === '20'){
-        table._entry = table._entry + 20;
-        console.log(table._entry);
-      };
+      // if(digit === '1'){
+      //   table._entry++;
+      //   console.log(table._entry);
+      // }
+      // //if selected button is 5, add 5
+      // if(digit === '5'){
+      //   table._entry = table._entry + 5;
+      //   console.log(table._entry);
+      // }
+      // //if selected button is 10, add 10
+      // if(digit === '10'){
+      //   table._entry = table._entry + 10;
+      //   console.log(table._entry);
+      // }
+      // //if selected button is 20, add 20
+      // if(digit === '20'){
+      //   table._entry = table._entry + 20;
+      //   console.log(table._entry);
+      // };
 
       //stores in database
       $.post(update_entry_url, {
@@ -239,7 +242,6 @@ var app = function() {
         });
     };
 
-
     self.get_dash_info = function() {
         var all_tables = self.vue.table_list;
         var tables = [];
@@ -257,7 +259,8 @@ var app = function() {
             self.vue.recorded_tables = data.entries;
             self.vue.not_recorded_tables = data.empty;
             console.log(data.entries, data.empty);
-
+            list_enumerate(self.vue.recorded_tables);
+            list_enumerate(self.vue.not_recorded_tables);
         });
     };
 
@@ -274,6 +277,7 @@ var app = function() {
             console.log(data);
             self.vue.recorded_tables.push(table);
             self.vue.not_recorded_tables.splice(idx, 1)
+            location.reload();
         })
     }
 

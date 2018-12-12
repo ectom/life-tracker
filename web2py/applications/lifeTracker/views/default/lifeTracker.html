@@ -92,6 +92,7 @@
                         <th>Today's Value</th>
                         <th>Unit</th>
                         <th>Options</th>
+                        <th>History</th>
                     </tr>
                     <!-- <a href="/lifeTracker/default/graph/:row.table_title/:row.table_field"> -->
                     <!-- First Row -->
@@ -111,34 +112,47 @@
                             <button v-if="row.table_type === 'TIMESTAMP'" type="button" v-on:click="add_entry_time(row._idx)" name="button">Add Entry</button>
                             <button v-else type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
                         </td>
+                        <td>
+                            <a href="" v-if="row.table_type === 'TEXT'" v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Entries</a>
+                            <a href="" v-else v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Graph</a>
+                        </td>
                     </tr>
+
+                    <!-- recorded tables start here -->
                     <tr v-for="row in recorded_tables">
                         <td>${row.table_title}</td>
                         <td>
                             <span class="edit_box">
                                 <span v-if="row._edit === false" id="displayed-entry">${row._entry}</span>
-                                <span v-if="row._edit === true">
+                                <span v-if="row._edit === true && row.table_type !== 'BOOLEAN'">
                                     <textarea v-model="row._entry"></textarea>
-                                    <button v-on:click="update_entry_box(row._idx, row._entry, row._edit)">Update Entry</button>
+                                </span>
+                                <span v-if="row._edit === true && row.table_type === 'BOOLEAN'">
+                                    <input v-model="row._entry" type="radio" name="" value="true"><label for="true">true</label>
+                                    <input v-model="row._entry" type="radio" name="" value="false"><label for="false">false</label>
                                 </span>
                             </span>
                         </td>
                         <td>${row.table_field}</td>
                         <td>
-                            <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
-                            <button id="edit-button" v-on:click="edit_entry(row._idx, row._entry, row._edit)"><i class="fa fa-pencil-square-o"></i> Edit Entry</button>
-                            <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '1')">Add 1</button>
-                            <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '5')">Add 5</button>
-                            <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '10')">Add 10</button>
-                            <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '20')">Add 20</button>
+                            <!-- <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button> -->
+                            <button v-if='row._edit === false' id="edit-button" v-on:click="edit_entry(row._idx)"><i class="fa fa-pencil-square-o"></i> Edit Entry</button>
+                            <button v-else v-on:click="update_entry_box(row._idx, row._entry, row.id)">Update Entry</button>
+                            <span v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'">
+                                <button v-on:click="add_value(row._idx, '1')">Add 1</button>
+                                <button v-on:click="add_value(row._idx, '5')">Add 5</button>
+                                <button v-on:click="add_value(row._idx, '10')">Add 10</button>
+                                <button v-on:click="add_value(row._idx, '20')">Add 20</button>
+                            </span>
+                        </td>
+                        <td>
                             <a href="" v-if="row.table_type === 'TEXT'" v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Entries</a>
                             <a href="" v-else v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Graph</a>
                         </td>
                     </tr>
                 </table>
-                </br>
-                <b>Recorded: </b> ${recorded_tables} <br>
-                <b>Not Recorded: </b>${not_recorded_tables}
+
+                <h3 v-if="recorded_tables.length === 0 && not_recorded_tables.length === 0">You are not tracking anything yet!</h3>
             </div>
         </div>
 

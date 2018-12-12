@@ -67,18 +67,20 @@ def get_dash_info():
         title = tables[i]['table_title']
         #     # sql = 'SELECT * FROM "' + title + '" WHERE entry_time >= "' + str(now.date()) +' 00:00:00.000000" AND entry_time <= "' + str(now) + '"'
         #     # sql = 'SELECT * FROM "'+title+'" WHERE DATE(entry_time) = DATE("now", "-1 day")'
-        sql = 'SELECT * FROM "'+title+'" WHERE author = "' + auth.user.email + '" ORDER BY entry_time DESC LIMIT 1'
+        sql = 'SELECT * FROM "'+title+'" WHERE author = "' + auth.user.email + '" AND DATE(entry_time) = DATE("now", "0 day") ORDER BY entry_time DESC LIMIT 1'
         entry_of_today = db.executesql(sql)
+        print tables[i]['_edit']
         print title,':', entry_of_today
         if len(entry_of_today) > 0:
             x = dict(
                 author=entry_of_today[0][0],
                 _entry=entry_of_today[0][1],
                 entry_time=entry_of_today[0][2],
+                id=entry_of_today[0][3],
                 table_field=tables[i]['table_field'],
                 table_title=tables[i]['table_title'],
                 table_type=tables[i]['table_type'],
-                _idx=tables[i]['_idx'],
+                # _idx=i,
                 _edit=tables[i]['_edit'],
             )
             entries.append(x)
@@ -106,6 +108,7 @@ def get_all_data():
     list = db.executesql('SELECT entry_time, ' + field + ', id FROM ' + table + ' WHERE author = "' + author +'"');
     return response.json(dict(list=list,title=table))
 
+# this edits entries from the entries.html
 @auth.requires_signature()
 def edit_entry():
     entry = json.loads(request.vars.entry)
@@ -118,12 +121,12 @@ def edit_entry():
 @auth.requires_signature()
 def update_entry():
     table = json.loads(request.vars.table)
+    print '1234567890',table
     title = table['table_title']
     param = table['table_field']
-    author = auth.user.email
     entry = str(table['_entry'])
-    entry_time = table['entry_time']
-    list = db.executesql('UPDATE "'+title+'" SET '+param+' = "'+entry+'" WHERE entry_time = "'+entry_time+'" ');
+    id = str(table['id'])
+    db.executesql('UPDATE "'+title+'" SET "'+param+'" = "'+entry+'" WHERE id = "'+id+'"');
     return entry
 
 # @auth.requires_signature()
