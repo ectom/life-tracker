@@ -18,7 +18,7 @@
             <p><a href="../default/lifeTracker"><button>Back To Dashboard</button></a></p>
         </div>
         <div class="">
-            <table>
+            <table v-if="chartData.length !== 0">
                 <tr>
                     <th>Date</th>
                     <th>Time</th>
@@ -26,8 +26,8 @@
                     <th>Options</th>
                 </tr>
                 <tr v-for="row in chartData">
-                    <td>${row['hour']}</td>
-                    <td>${row['time']}</td>
+                    <td><strong>${row['hour']}</strong></td>
+                    <td><i>${row['time']}</i></td>
                     <td v-if="!row._editing">${row['entry']}</td>
                     <td v-if="row._editing">
                         <textarea v-model="row['entry']"></textarea>
@@ -37,6 +37,7 @@
                     <td v-if="row._editing"><button type="button" v-on:click="cancel_entry(row.idx)" name="button">Cancel</button></td>
                 </tr>
             </table>
+            <h4 v-if="chartData.length === 0">You do not have any entries yet</h4>
         </div>
     </div>
 

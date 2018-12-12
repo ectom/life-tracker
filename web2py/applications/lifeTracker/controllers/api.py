@@ -67,8 +67,9 @@ def get_dash_info():
         title = tables[i]['table_title']
         #     # sql = 'SELECT * FROM "' + title + '" WHERE entry_time >= "' + str(now.date()) +' 00:00:00.000000" AND entry_time <= "' + str(now) + '"'
         #     # sql = 'SELECT * FROM "'+title+'" WHERE DATE(entry_time) = DATE("now", "-1 day")'
-        sql = 'SELECT * FROM "'+title+'" WHERE author = "' + auth.user.email + '" ORDER BY entry_time DESC LIMIT 1'
+        sql = 'SELECT * FROM "'+title+'" WHERE author = "' + auth.user.email + '" AND DATE(entry_time) = DATE("now", "0 day") ORDER BY entry_time DESC LIMIT 1'
         entry_of_today = db.executesql(sql)
+        print tables[i]['_edit']
         print title,':', entry_of_today
         if len(entry_of_today) > 0:
             x = dict(
@@ -79,7 +80,7 @@ def get_dash_info():
                 table_field=tables[i]['table_field'],
                 table_title=tables[i]['table_title'],
                 table_type=tables[i]['table_type'],
-                _idx=tables[i]['_idx']-1,
+                # _idx=i,
                 _edit=tables[i]['_edit'],
             )
             entries.append(x)

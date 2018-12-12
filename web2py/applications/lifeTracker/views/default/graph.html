@@ -20,18 +20,21 @@
 
             <!-- tab links -->
             <div class="tab">
-                <button class="tablinks" v-on:click="chart(event, 'line')">Line Chart</button>
-                <button class="tablinks" v-on:click="chart(event, 'area')">Area Chart</button>
-                <button class="tablinks" v-on:click="chart(event, 'column')">Column Chart</button>
-                <button class="tablinks" v-on:click="chart(event, 'bar')">Bar Chart</button>
+                <button class="chartlink" v-on:click="chart(event, 'line')">Line Chart</button>
+                <button class="chartlink" v-on:click="chart(event, 'area')">Area Chart</button>
+                <button class="chartlink" v-on:click="chart(event, 'column')">Column Chart</button>
+                <button class="chartlink" v-on:click="chart(event, 'bar')">Bar Chart</button>
             </div>
 
             <!-- charts -->
-            <div class="">
-                <div id="line" class="tabcontent"><line-chart :data="chartData"></line-chart></div>
-                <div id="column" class="tabcontent"><column-chart :data="chartData"></column-chart></div>
-                <div id="area" class="tabcontent"><area-chart :data="chartData"></area-chart></div>
-                <div id="bar" class="tabcontent"><bar-chart :data="chartData"></bar-chart></div>
+            <div>
+                <div id="line" class="content"><line-chart :data="chartData"></line-chart></div>
+                <div id="column" class="content"><column-chart :data="chartData"></column-chart></div>
+                <div id="area" class="content"><area-chart :data="chartData"></area-chart></div>
+                <div id="bar" class="content"><bar-chart :data="chartData"></bar-chart></div>
+            </div>
+            <div v-if="!select">
+                <h3>Please Select A Graph!</h3>
             </div>
         </div>
     </body>

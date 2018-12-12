@@ -112,15 +112,24 @@
                             <button v-if="row.table_type === 'TIMESTAMP'" type="button" v-on:click="add_entry_time(row._idx)" name="button">Add Entry</button>
                             <button v-else type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
                         </td>
-                        <td></td>
+                        <td>
+                            <a href="" v-if="row.table_type === 'TEXT'" v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Entries</a>
+                            <a href="" v-else v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Graph</a>
+                        </td>
                     </tr>
+
+                    <!-- recorded tables start here -->
                     <tr v-for="row in recorded_tables">
                         <td>${row.table_title}</td>
                         <td>
                             <span class="edit_box">
                                 <span v-if="row._edit === false" id="displayed-entry">${row._entry}</span>
-                                <span v-if="row._edit === true">
+                                <span v-if="row._edit === true && row.table_type !== 'BOOLEAN'">
                                     <textarea v-model="row._entry"></textarea>
+                                </span>
+                                <span v-if="row._edit === true && row.table_type === 'BOOLEAN'">
+                                    <input v-model="row._entry" type="radio" name="" value="true"><label for="true">true</label>
+                                    <input v-model="row._entry" type="radio" name="" value="false"><label for="false">false</label>
                                 </span>
                             </span>
                         </td>
@@ -142,9 +151,8 @@
                         </td>
                     </tr>
                 </table>
-                </br>
-                <b>Recorded: </b> ${recorded_tables} <br>
-                <b>Not Recorded: </b>${not_recorded_tables}
+
+                <h3 v-if="recorded_tables.length === 0 && not_recorded_tables.length === 0">You are not tracking anything yet!</h3>
             </div>
         </div>
 
