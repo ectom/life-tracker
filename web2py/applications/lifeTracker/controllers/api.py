@@ -65,8 +65,6 @@ def get_dash_info():
     i = 0
     while i < len(tables):
         title = tables[i]['table_title']
-        #     # sql = 'SELECT * FROM "' + title + '" WHERE entry_time >= "' + str(now.date()) +' 00:00:00.000000" AND entry_time <= "' + str(now) + '"'
-        #     # sql = 'SELECT * FROM "'+title+'" WHERE DATE(entry_time) = DATE("now", "-1 day")'
         sql = 'SELECT * FROM "'+title+'" WHERE author = "' + auth.user.email + '" AND DATE(entry_time) = DATE("now", "0 day") ORDER BY entry_time DESC LIMIT 1'
         entry_of_today = db.executesql(sql)
         print tables[i]['_edit']
@@ -80,7 +78,6 @@ def get_dash_info():
                 table_field=tables[i]['table_field'],
                 table_title=tables[i]['table_title'],
                 table_type=tables[i]['table_type'],
-                # _idx=i,
                 _edit=tables[i]['_edit'],
             )
             entries.append(x)
@@ -117,48 +114,12 @@ def edit_entry():
     db.executesql('UPDATE "' + title + '" SET "' + field + '"="' + entry['entry'] + '" WHERE author = "'+auth.user.email + '" AND id = "' + str(entry['id']) + '"')
 
 # updates the table entry for the buttons
-#need to edit this later as it does not work
 @auth.requires_signature()
 def update_entry():
     table = json.loads(request.vars.table)
-    print '1234567890',table
     title = table['table_title']
     param = table['table_field']
     entry = str(table['_entry'])
     id = str(table['id'])
     db.executesql('UPDATE "'+title+'" SET "'+param+'" = "'+entry+'" WHERE id = "'+id+'"');
     return entry
-
-# @auth.requires_signature()
-# def set_thumb():
-#     post_id = int(request.vars.post_id)
-#     thumb_state = request.vars.thumb
-#     db.thumb.update_or_insert(
-#         (db.thumb.post_id == post_id) & (db.thumb.user_email == auth.user.email),
-#         post_id = post_id,
-#         user_email = auth.user.email,
-#         thumb_state = thumb_state
-#     )
-#     return "ok" # Might be useful in debugging.
-#
-# def get_thumbs():
-#     likes = len(db((db.thumb.post_id == request.vars.post_id) & (db.thumb.thumb_state == 'u')).select())
-#     dislikes = len(db((db.thumb.post_id == request.vars.post_id) & (db.thumb.thumb_state == 'd')).select())
-#     total = likes-dislikes
-#     return response.json(dict(total=total))
-#     # """Gets the list of people who liked a post."""
-#     # # We get directly the list of all the users who liked the post.
-#     # rows = db().select(db.thumb.ALL)
-#     # # If the user is logged in, we remove the user from the set.
-#     # thumbs_set = set([r for r in rows])
-#     # thumbs_list = list(thumbs_set)
-#     # thumbs_list.sort()
-#     # # # We return this list as a dictionary field, to be consistent with all other calls.
-#     # return response.json(dict(thumbs=thumbs_list))
-#
-# @auth.requires_signature()
-# def edit_post():
-#
-#     print req.vars.id
-#     print req.vars.post_content
-#     return "ok"

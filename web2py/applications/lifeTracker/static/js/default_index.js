@@ -84,18 +84,18 @@ var app = function() {
 
     // hides edit box and updates db with new entry
     self.update_entry_box = function(idx, entry, id) {
-      var table = self.vue.recorded_tables[idx];
-      console.log(table._entry, entry, table);
-      table._edit = false;
-      $.post(update_entry_url, {
-        table: JSON.stringify(table),
-      }, function(data){
-        console.log(data, "passed back");
-      });
+        var table = self.vue.recorded_tables[idx];
+        console.log(table._entry, entry, table);
+        table._edit = false;
+        $.post(update_entry_url, {
+            table: JSON.stringify(table),
+        }, function(data) {
+            console.log(data, "passed back");
+        });
     };
 
     // shows edit textbox for dash
-    self.edit_entry = function(idx){
+    self.edit_entry = function(idx) {
         console.log(idx);
         var table = self.vue.recorded_tables[idx];
         table._edit = true;
@@ -104,40 +104,14 @@ var app = function() {
     //updates the data entry based on the button clicked
     //Ex: Add 1 button will update the database entry by 1
     self.add_value = function(idx, digit) {
-        console.log(idx);
-      var table = self.vue.recorded_tables[idx];
-      console.log(table, table._entry, digit);
-
-      table._entry = Number(table._entry) + Number(digit);
-      console.log(table._entry);
-
-      //if selected button is 1, add 1
-      // if(digit === '1'){
-      //   table._entry++;
-      //   console.log(table._entry);
-      // }
-      // //if selected button is 5, add 5
-      // if(digit === '5'){
-      //   table._entry = table._entry + 5;
-      //   console.log(table._entry);
-      // }
-      // //if selected button is 10, add 10
-      // if(digit === '10'){
-      //   table._entry = table._entry + 10;
-      //   console.log(table._entry);
-      // }
-      // //if selected button is 20, add 20
-      // if(digit === '20'){
-      //   table._entry = table._entry + 20;
-      //   console.log(table._entry);
-      // };
-
-      //stores in database
-      $.post(update_entry_url, {
-        table: JSON.stringify(table),
-      }, function(data){
-        console.log(data, "passed back");
-      });
+        var table = self.vue.recorded_tables[idx];
+        table._entry = Number(table._entry) + Number(digit);
+        console.log(table._entry);
+        $.post(update_entry_url, {
+            table: JSON.stringify(table),
+        }, function(data) {
+            console.log(data, "passed back");
+        });
     };
 
     // adds table info to dynamic_dbs
@@ -270,23 +244,21 @@ var app = function() {
     self.add_entry = function(idx) {
         console.log(idx);
         var table = self.vue.not_recorded_tables[idx];
-        console.log(table)
         $.post(add_entry_url, {
             table: JSON.stringify(table)
         }, function(data) {
-            console.log(data);
             self.vue.recorded_tables.push(table);
             self.vue.not_recorded_tables.splice(idx, 1)
             location.reload();
         })
     }
 
-    self.pass_data = function (title, field, table_type) {
+    self.pass_data = function(title, field, table_type) {
         var url;
         if (table_type === 'TEXT') {
-            url = 'entries?title='+title+'&field='+field+'&table_type='+table_type;
+            url = 'entries?title=' + title + '&field=' + field + '&table_type=' + table_type;
         } else {
-            url = 'graph?title='+title+'&field='+field+'&table_type='+table_type;
+            url = 'graph?title=' + title + '&field=' + field + '&table_type=' + table_type;
         }
         document.getElementById(title).href = url;
     }
