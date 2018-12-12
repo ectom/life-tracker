@@ -153,21 +153,8 @@ var app = function() {
         // If you put code here, it is run BEFORE the call comes back.
         // hide();
     };
-    //
-    // self.get_thumbs = function(){
-    //     var length = self.vue.post_list.length;
-    //     posts = self.vue.post_list
-    //     for(var i = 0; i < length; i++){
-    //         var p = posts[i];
-    //         console.log(p.id);
-    //         console.log(p);
-    //         $.post(get_thumbs_url, { post_id: p.id }, function (data) {
-    //             p._total = data.total;
-    //         });
-    //     }
-    // };
 
-    // gets tables tht have not been created yet
+    // gets tables that have not been created yet
     self.get_dynamic_tables = function() {
         $.getJSON(get_dynamic_table_list_url,
             function(data) {
@@ -200,19 +187,15 @@ var app = function() {
     self.process_dynamic_tables = function() {
         enumerate(self.vue.table_list);
         self.vue.table_list.map(function(e) {
-            // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
-            // Vue.set(e, '_gray_thumb'); //keeps track of when thumbs are supposed to be gray
-            // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
+
         });
     };
 
     self.process_user_tables = function() {
         enumerate(self.vue.user_tables);
         self.vue.user_tables.map(function(e) {
-            // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
             Vue.set(e, '_entry'); // keeps track of each category's daily entry
             Vue.set(e, '_edit');
-            // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
         });
     };
 

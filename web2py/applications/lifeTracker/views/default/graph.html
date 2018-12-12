@@ -28,7 +28,7 @@
             </div>
 
             <!-- charts -->
-            <div class="charts_info">
+            <div v-if="select" class="charts_info">
                 <div id="line" class="content"><line-chart :data="chartData"></line-chart></div>
                 <div id="column" class="content"><column-chart :data="chartData"></column-chart></div>
                 <div id="area" class="content"><area-chart :data="chartData"></area-chart></div>

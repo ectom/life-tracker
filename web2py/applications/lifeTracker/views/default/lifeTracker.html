@@ -119,7 +119,7 @@
                         </td>
                         <td>${row.table_field}</td>
                         <td>
-                            <!-- <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button> -->
+                          <!-- options to update the entry -->
                             <button class="lt_btn"  v-if='row._edit === false' id="edit-button" v-on:click="edit_entry(row._idx)"><i class="fa fa-pencil-square-o"></i> Edit Entry</button>
                             <button class="lt_btn"  v-else v-on:click="update_entry_box(row._idx, row._entry, row.id)">Update Entry</button>
                             <span v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'">
