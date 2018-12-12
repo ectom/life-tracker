@@ -8,10 +8,11 @@
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.2/d3.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<!-- <link rel="stylesheet" href="myapp.css"> -->
 
 
-<style>
-    body {font-family: Arial; line-height: 160%; font-size: 12px; }
+<!-- <style>
+  body {font-family: Arial; line-height: 160%; font-size: 12px; }
   ul {list-style: none; margin: 0; padding: 0; }
   li { min-width: 80px; padding: 10px; margin: 0;}
   input {border: 1px dotted #ccc; background: white; font-family: Arial; padding: 10px 20px; font-size: 12px; margin: 20px 10px 20px 0; color: black;}
@@ -25,7 +26,7 @@
     padding: 15px;
     text-align: left;
   }
-</style>
+</style> -->
 
 
 <script>
@@ -45,10 +46,9 @@
     <div class="main_content">
         <div id="vuediv" class="display:none">
             <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
-            <button class="add_tables" v-on:click="show_form"><i class="fa fa-plus-circle"></i> Add Category</button>
-
+            <button class="button add_tables" v-on:click="show_form"><i class="fa fa-plus-circle"></i> Add Category</button>
             <form name="myform" onSubmit="return handleClick()">
-                <div id="show_myform" style="display:none">
+                <div class="lifetracker_form" id="show_myform" style="display:none">
                     <div class="add_table">
                         <div class="container form_row">
                             <div class="label quarter">
@@ -85,7 +85,7 @@
                             <div class="quarter"></div>
                             <div class="threequarters">
                                 <div class="submit">
-                                    <button id="add-table" v-on:click="add_table"><i class="fa fa-caret-down"></i>Submit</button>
+                                    <button class="button" id="add-table" v-on:click="add_table"><i class="fa fa-caret-down"></i> Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -117,8 +117,8 @@
                     </td>
                     <td>${row.table_field}</td>
                     <td>
-                        <button v-if="row.table_type === 'TIMESTAMP'" type="button" v-on:click="add_entry_time(row._idx)" name="button">Add Entry</button>
-                        <button v-else type="button" v-on:click="add_entry(row._idx)" name="button">${row._idx} Add Entry</button>
+                        <button class="button" v-if="row.table_type === 'TIMESTAMP'" type="button" v-on:click="add_entry_time(row._idx)" name="button">Add Entry</button>
+                        <button class="button" v-else type="button" v-on:click="add_entry(row._idx)" name="button">${row._idx} Add Entry</button>
                     </td>
                 </tr>
                 <tr v-for="row in recorded_tables">
@@ -129,18 +129,18 @@
                         <span v-if="row._edit === true">
                           <textarea v-model="row._entry">
                           </textarea>
-                          <button v-on:click="update_entry_box(row._idx, row._entry, row._edit)">Update Entry</button>
+                          <button class="button" v-on:click="update_entry_box(row._idx, row._entry, row._edit)">Update Entry</button>
                         </span>
                       </span>
                     </td>
                     <td>${row.table_field}</td>
                     <td>
-                      <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
-                      <button id="edit-button" v-on:click="edit_entry(row._idx, row._entry, row._edit)"><i class="fa fa-pencil-square-o"></i> Edit Entry</button>
-                      <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '1')">Add 1</button>
-                      <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '5')">Add 5</button>
-                      <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '10')">Add 10</button>
-                      <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '20')">Add 20</button>
+                      <button class="button" type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
+                      <button class="button" id="edit-button" v-on:click="edit_entry(row._idx, row._entry, row._edit)"><i class="fa fa-pencil-square-o"></i> Edit Entry</button>
+                      <button class="button" v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '1')"><i class=" fa fa-plus"></i> Add 1</button>
+                      <button class="button" v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '5')"><i class=" fa fa-plus"></i> Add 5</button>
+                      <button class="button" v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '10')"><i class=" fa fa-plus"></i> Add 10</button>
+                      <button class="button" v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '20')"><i class=" fa fa-plus"></i> Add 20</button>
                     </td>
                 </tr>
             </table>
@@ -153,7 +153,7 @@
             <!-- Navigates to graph.html -->
             <div id="hello">
                 <p>
-                    <a href="../default/graph.html"><button>Check Graph</button></a>
+                    <a href="../default/graph.html"><button class="button" >Check Graph</button></a>
                 </p>
             </div>
 
