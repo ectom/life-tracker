@@ -1,82 +1,172 @@
-/* line 1, ../sass/_main.scss */
-.colorful {
-  color: #bb8833;
+body {
+  font-family: Arial;
 }
 
-/* line 5, ../sass/_main.scss */
-div.main_content {
-  padding: 16px;
-}
-/* line 8, ../sass/_main.scss */
-div.main_content div.form_row {
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-/* line 13, ../sass/_main.scss */
-div.main_content div.post_div {
-  margin: 4px;
-  border: 1px black solid;
-  background-color: #eeeeee;
-  padding: 4px;
-}
-/* line 18, ../sass/_main.scss */
-div.main_content div.post_div .post_title {
-  font-size: 120%;
-}
-/* line 22, ../sass/_main.scss */
-div.main_content i.changed {
-  color: #777777;
-}
-/* line 25, ../sass/_main.scss */
-div.main_content span.likers_list {
-  color: #7777cc;
-}
-.inline{
-    display: inline;
-}
-.transparent{
-    color: transparent;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
-}
-.dropdown{
-    max-width: 50px;
-}
-.input{
-    min-width: 700px;
-}
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #5E5959;
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-/* Style the buttons that are used to open the tab content */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
+li {
+  min-width: 80px;
+  padding: 10px;
+  margin: 0;
+}
+
+input {
+  border: 1px dotted #ccc;
+  background: white;
+  font-family: Arial;
+  padding: 10px 20px;
+  font-size: 12px;
+  margin: 20px 10px 20px 0;
+  color: black;
+}
+
+/* response when mouse hovers over any input */
+input:focus {
+  background-color:#ffe4b5;
   outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
 }
 
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #353434;
+/* in lifeTracker.html, background color of the rows in table iether even or odd */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+tr:nth-child(odd){
+  background-color: #e6e6e6;
 }
 
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
+/* in lifeTracker.html line 98, style of the table */
+table{
+  margin: auto;
+  width: 80%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-/* Style the tab content */
-.content {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
+/* in lifeTracker.html, style of the table titles */
+th{
+  background-color: #33334d;
+  font-size: 18px;
+  color: white;
+  padding: 15px;
+}
+
+/* in lifeTracker.html, style of the rows in tables */
+td {
+  padding: 15px;
+  text-align: left;
+}
+
+ul.menu{
+  font-size: 14px;
+}
+
+/* in layout.html, line 22, style of the flashing message when user is logged in or out */
+div.w2p_flash{
+  background-color: #1f1f2e;
+  color: white;
+  font-size: 14px;
+}
+
+/* in user.html, line 5 */
+.user_info{
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  width: 50%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+/* in index.html, line 12 */
+.intro_box{
+  background-color: white;
+  color: black;
+  text-align: center;
+  border: 5px solid #e6e6e6;
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom:10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+}
+/* in index.html, centers the button for login */
+.intro_button{
+  text-align: center;
+}
+
+/* loads the image as the background for the page  */
+.index_main, .user_content, .main_content, .graph_content{
+  background-image: url(../images/trianglify.png);
+  height: 100%;
+  padding: 15px;
+}
+
+/* in lifeTracker.html, line 51  */
+.lifetracker_form{
+  border-radius: 3px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  font-size: 14px;
+}
+
+/* in lifeTracker.html, line 27  */
+.add_tables{
+  text-align: center;
+}
+
+/* in graph.html, line 13 */
+.graph_content{
+  padding: 15px;
+}
+.graph_box{
+  border-radius: 3px;
+  background-color: white;
+  padding: 15px;
+}
+
+/* style of any buttons in the app  */
+/* .btn{
+  background-color: #879FC8;
+  color: white;
+  font-size: 12px;
+  border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
+
+} */
+
+/* in graph.html, style for buttons and charts  */
+.tab, .chartlink, .home_btn{
+  background-color: #879FC8;
+}
+.chartlink{
+  margin-left: 8%;
+}
+.tab, .home_btn{
+  border-radius: 3px;
+}
+.charts_info{
+  padding: 10px;
+}
+
+/*  */
+.lt_btn, .btn{
+  background-color: #879FC8;
+  border-radius: 3px;
 }

@@ -10,24 +10,25 @@
 </script>
 <html>
     <body>
-        <div id='graph'>
+        <div id='graph' class="graph_content">
+          <div class="graph_box">
             <div class="Category_Title">
                 <h2>${title} - ${field}</h2>
             </div>
             <div class="back">
-                <p><a href="../default/lifeTracker"><button>Back To Dashboard</button></a></p>
+                <p><a href="../default/lifeTracker"><button class="home_btn"><i class="fa fa-home"></i> Back To Dashboard</button></a></p>
             </div>
 
             <!-- tab links -->
             <div class="tab">
-                <button class="chartlink" v-on:click="chart(event, 'line')">Line Chart</button>
-                <button class="chartlink" v-on:click="chart(event, 'area')">Area Chart</button>
+                <button class="chartlink" v-on:click="chart(event, 'line')"><i class="fa fa-line-chart"></i> Line Chart</button>
+                <button class="chartlink" v-on:click="chart(event, 'area')"><i class="fa fa-area-chart"></i> Area Chart</button>
                 <button class="chartlink" v-on:click="chart(event, 'column')">Column Chart</button>
-                <button class="chartlink" v-on:click="chart(event, 'bar')">Bar Chart</button>
+                <button class="chartlink" v-on:click="chart(event, 'bar')"><i class="fa fa-bar-chart"></i> Bar Chart</button>
             </div>
 
             <!-- charts -->
-            <div>
+            <div class="charts_info">
                 <div id="line" class="content"><line-chart :data="chartData"></line-chart></div>
                 <div id="column" class="content"><column-chart :data="chartData"></column-chart></div>
                 <div id="area" class="content"><area-chart :data="chartData"></area-chart></div>
@@ -36,6 +37,7 @@
             <div v-if="!select">
                 <h3>Please Select A Chart!</h3>
             </div>
+          </div>
         </div>
     </body>
 </html>

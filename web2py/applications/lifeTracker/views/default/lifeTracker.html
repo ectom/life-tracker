@@ -6,22 +6,6 @@
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 
-<style>
-    body {font-family: Arial; line-height: 160%; font-size: 12px; }
-    ul {list-style: none; margin: 0; padding: 0; }
-    li { min-width: 80px; padding: 10px; margin: 0;}
-    input {border: 1px dotted #ccc; background: white; font-family: Arial; padding: 10px 20px; font-size: 12px; margin: 20px 10px 20px 0; color: black;}
-    input:focus { background-color:#ffe4b5; outline: none;}
-    tr:nth-child(even) {background-color: #f2f2f2;}
-    th{
-        background-color: #000000;
-        color: white;
-    }
-    th, td {
-        padding: 15px;
-        text-align: left;
-    }
-</style>
 <script>
     var add_table_url = "{{=URL('api', 'add_table', user_signature=True)}}";
     var get_dynamic_table_list_url = "{{=URL('api', 'get_dynamic_table_list')}}";
@@ -37,9 +21,9 @@
     <body>
         <div class="main_content">
             <div id="vuediv" class="display:none">
-                <button class="add_tables" v-on:click="show_form"><i class="fa fa-plus-circle"></i> Add Category</button>
+                <button class="add_tables lt_btn" v-on:click="show_form"><i class="fa fa-plus-circle"></i> Add Category</button>
                 <form name="myform" onSubmit="return handleClick()">
-                    <div id="show_myform" style="display:none">
+                    <div class="lifetracker_form" id="show_myform" style="display:none">
                         <div class="add_table">
                             <div class="container form_row">
                                 <div class="label quarter">
@@ -76,7 +60,7 @@
                                 <div class="quarter"></div>
                                 <div class="threequarters">
                                     <div class="submit">
-                                        <button id="add-table" v-on:click="add_table"><i class="fa fa-caret-down"></i>Submit</button>
+                                        <button class="lt_btn" id="add-table" v-on:click="add_table"><i class="fa fa-caret-down"></i>Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -109,8 +93,8 @@
                         </td>
                         <td>${row.table_field}</td>
                         <td>
-                            <button v-if="row.table_type === 'TIMESTAMP'" type="button" v-on:click="add_entry_time(row._idx)" name="button">Add Entry</button>
-                            <button v-else type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
+                            <button class="lt_btn" v-if="row.table_type === 'TIMESTAMP'" type="button" v-on:click="add_entry_time(row._idx)" name="button">Add Entry</button>
+                            <button class="lt_btn" v-else type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
                         </td>
                         <td>
                             <a href="" v-if="row.table_type === 'TEXT'" v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Entries</a>
@@ -136,13 +120,13 @@
                         <td>${row.table_field}</td>
                         <td>
                             <!-- <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button> -->
-                            <button v-if='row._edit === false' id="edit-button" v-on:click="edit_entry(row._idx)"><i class="fa fa-pencil-square-o"></i> Edit Entry</button>
-                            <button v-else v-on:click="update_entry_box(row._idx, row._entry, row.id)">Update Entry</button>
+                            <button class="lt_btn"  v-if='row._edit === false' id="edit-button" v-on:click="edit_entry(row._idx)"><i class="fa fa-pencil-square-o"></i> Edit Entry</button>
+                            <button class="lt_btn"  v-else v-on:click="update_entry_box(row._idx, row._entry, row.id)">Update Entry</button>
                             <span v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'">
-                                <button v-on:click="add_value(row._idx, '1')">Add 1</button>
-                                <button v-on:click="add_value(row._idx, '5')">Add 5</button>
-                                <button v-on:click="add_value(row._idx, '10')">Add 10</button>
-                                <button v-on:click="add_value(row._idx, '20')">Add 20</button>
+                                <button class="lt_btn" v-on:click="add_value(row._idx, '1')">Add 1</button>
+                                <button class="lt_btn"  v-on:click="add_value(row._idx, '5')">Add 5</button>
+                                <button class="lt_btn"  v-on:click="add_value(row._idx, '10')">Add 10</button>
+                                <button class="lt_btn"  v-on:click="add_value(row._idx, '20')">Add 20</button>
                             </span>
                         </td>
                         <td>
