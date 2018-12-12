@@ -76,15 +76,11 @@ var app = function() {
         }
     };
 
-    self.update_entry_box = function(idx, entry, edit_status) {
+    // hides edit box and updates db with new entry
+    self.update_entry_box = function(idx, entry, id) {
       var table = self.vue.recorded_tables[idx];
-      console.log(idx, entry, table._edit, edit_status, "asdfew");
-      if(table._idx === idx && table._edit === edit_status){
-        table._edit = false;
-        console.log(table._entry, entry, table);
-        // $("#input-box").hide();
-        // $("#displayed-entry").show();
-      }
+      console.log(table._entry, entry, table);
+      table._edit = false;
       $.post(update_entry_url, {
         table: JSON.stringify(table),
       }, function(data){
@@ -92,15 +88,10 @@ var app = function() {
       });
     };
 
-    self.edit_entry = function(idx, entry, edit_status){
-      var table = self.vue.recorded_tables[idx];
-      console.log(idx, entry, table._edit);
-      if(table._idx === idx && table._edit === edit_status ){
+    // shows edit textbox for dash
+    self.edit_entry = function(idx){
+        var table = self.vue.recorded_tables[idx];
         table._edit = true;
-        console.log("identical id", table._edit, table);
-        // $("#input-box").show();
-        // $("#displayed-entry").hide();
-      }
     };
 
     //updates the data entry based on the button clicked
