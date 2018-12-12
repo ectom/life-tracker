@@ -4,6 +4,8 @@
 <meta charset='utf-8'>
 
 {{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+
 <style>
     body {font-family: Arial; line-height: 160%; font-size: 12px; }
     ul {list-style: none; margin: 0; padding: 0; }
@@ -27,6 +29,7 @@
     var get_dash_info_url = "{{=URL('api', 'get_dash_info', user_signature=True)}}";
     var add_entry_url = "{{=URL('api', 'add_entry', user_signature=True)}}";
     var add_entry_time_url = "{{=URL('api', 'add_entry_time', user_signature=True)}}";
+    var update_entry_url = "{{=URL('api', 'update_entry', user_signature=True)}}";
     var is_logged_in = {{= 'false' if auth.user is None else 'true' }};
     var user_email = "{{=auth.user.email}}";
 </script>
@@ -111,10 +114,23 @@
                     </tr>
                     <tr v-for="row in recorded_tables">
                         <td>${row.table_title}</td>
-                        <td>${row._entry}</td>
+                        <td>
+                            <span class="edit_box">
+                                <span v-if="row._edit === false" id="displayed-entry">${row._entry}</span>
+                                <span v-if="row._edit === true">
+                                    <textarea v-model="row._entry"></textarea>
+                                    <button v-on:click="update_entry_box(row._idx, row._entry, row._edit)">Update Entry</button>
+                                </span>
+                            </span>
+                        </td>
                         <td>${row.table_field}</td>
                         <td>
                             <button type="button" v-on:click="add_entry(row._idx)" name="button">Add Entry</button>
+                            <button id="edit-button" v-on:click="edit_entry(row._idx, row._entry, row._edit)"><i class="fa fa-pencil-square-o"></i> Edit Entry</button>
+                            <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '1')">Add 1</button>
+                            <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '5')">Add 5</button>
+                            <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '10')">Add 10</button>
+                            <button v-if="row.table_type === 'INTEGER'  || row.table_type === 'DECIMAL'" v-on:click="add_value(row._idx, '20')">Add 20</button>
                             <a href="" v-if="row.table_type === 'TEXT'" v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Entries</a>
                             <a href="" v-else v-bind:id="row.table_title" v-on:click="pass_data(row.table_title, row.table_field, row.table_type)">${row.table_title} Graph</a>
                         </td>
@@ -125,6 +141,8 @@
                 <b>Not Recorded: </b>${not_recorded_tables}
             </div>
         </div>
-    </body>
+
+</body>
+
 </html>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

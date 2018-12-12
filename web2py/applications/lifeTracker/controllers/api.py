@@ -77,7 +77,9 @@ def get_dash_info():
                 entry_time=entry_of_today[0][2],
                 table_field=tables[i]['table_field'],
                 table_title=tables[i]['table_title'],
-                table_type=tables[i]['table_type']
+                table_type=tables[i]['table_type'],
+                _idx=tables[i]['_idx'],
+                _edit=tables[i]['_edit'],
             )
             entries.append(x)
         else:
@@ -110,6 +112,20 @@ def edit_entry():
     title = request.vars.title
     field = request.vars.field
     db.executesql('UPDATE "' + title + '" SET "' + field + '"="' + entry['entry'] + '" WHERE author = "'+auth.user.email + '" AND id = "' + str(entry['id']) + '"')
+
+# updates the table entry for the buttons
+#need to edit this later as it does not work
+@auth.requires_signature()
+def update_entry():
+    table = json.loads(request.vars.table)
+    title = table['table_title']
+    param = table['table_field']
+    author = auth.user.email
+    entry = str(table['_entry'])
+    entry_time = table['entry_time']
+    list = db.executesql('UPDATE "'+title+'" SET '+param+' = "'+entry+'" WHERE entry_time = "'+entry_time+'" ');
+    return entry
+
 # @auth.requires_signature()
 # def set_thumb():
 #     post_id = int(request.vars.post_id)

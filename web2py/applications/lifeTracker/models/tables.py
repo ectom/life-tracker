@@ -25,7 +25,7 @@ db.define_table('dynamic_dbs',
     Field('table_type', 'text'),
     Field('created', default=False),
     Field('dynamo_time', 'datetime', update=get_current_time()),
-) 
+)
 
 db.dynamic_dbs.dynamo_time.readable = db.dynamic_dbs.dynamo_time.writable = False
 db.dynamic_dbs.table_author.writable = False

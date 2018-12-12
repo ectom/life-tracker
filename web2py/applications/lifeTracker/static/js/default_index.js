@@ -61,6 +61,7 @@ var app = function() {
         return v.map(function(e) {
             e._idx = k++;
             e._entry = null;
+            e._edit = false;
         });
     };
 
@@ -73,6 +74,67 @@ var app = function() {
             $("#show_myform").show();
             $(".add_tables").hide();
         }
+    };
+
+    self.update_entry_box = function(idx, entry, edit_status) {
+      var table = self.vue.recorded_tables[idx];
+      console.log(idx, entry, table._edit, edit_status, "asdfew");
+      if(table._idx === idx && table._edit === edit_status){
+        table._edit = false;
+        console.log(table._entry, entry, table);
+        // $("#input-box").hide();
+        // $("#displayed-entry").show();
+      }
+      $.post(update_entry_url, {
+        table: JSON.stringify(table),
+      }, function(data){
+        console.log(data, "passed back");
+      });
+    };
+
+    self.edit_entry = function(idx, entry, edit_status){
+      var table = self.vue.recorded_tables[idx];
+      console.log(idx, entry, table._edit);
+      if(table._idx === idx && table._edit === edit_status ){
+        table._edit = true;
+        console.log("identical id", table._edit, table);
+        // $("#input-box").show();
+        // $("#displayed-entry").hide();
+      }
+    };
+
+    //updates the data entry based on the button clicked
+    //Ex: Add 1 button will update the database entry by 1
+    self.add_value = function(idx, digit) {
+      var table = self.vue.recorded_tables[idx];
+      console.log(table, table._entry, digit);
+      //if selected button is 1, add 1
+      if(digit === '1'){
+        table._entry++;
+        console.log(table._entry);
+      }
+      //if selected button is 5, add 5
+      if(digit === '5'){
+        table._entry = table._entry + 5;
+        console.log(table._entry);
+      }
+      //if selected button is 10, add 10
+      if(digit === '10'){
+        table._entry = table._entry + 10;
+        console.log(table._entry);
+      }
+      //if selected button is 20, add 20
+      if(digit === '20'){
+        table._entry = table._entry + 20;
+        console.log(table._entry);
+      };
+
+      //stores in database
+      $.post(update_entry_url, {
+        table: JSON.stringify(table),
+      }, function(data){
+        console.log(data, "passed back");
+      });
     };
 
     // adds table info to dynamic_dbs
@@ -172,25 +234,11 @@ var app = function() {
         self.vue.user_tables.map(function(e) {
             // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
             Vue.set(e, '_entry'); // keeps track of each category's daily entry
+            Vue.set(e, '_edit');
             // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
         });
     };
-    // self.process_entered = function() {
-    //     enumerate(self.vue.recorded_tables);
-    //     self.vue.recorded_tables.map(function (e) {
-    //         // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
-    //         Vue.set(e, '_entry'); // keeps track of each category's daily entry
-    //         // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
-    //     });
-    // };
-    // self.process_unentered = function() {
-    //     enumerate(self.vue.not_recorded_tables);
-    //     self.vue.not_recorded_tables.map(function (e) {
-    //         // Vue.set(e, '_total'); //keeps track of total likes vs dislikes
-    //         Vue.set(e, '_entry'); // keeps track of each category's daily entry
-    //         // Vue.set(e, '_num_thumb_display'); //keeps track of thumbs while hoverings
-    //     });
-    // };
+
 
     self.get_dash_info = function() {
         var all_tables = self.vue.table_list;
@@ -252,6 +300,8 @@ var app = function() {
             not_recorded_tables: [], // the entries that the user has not entered yet for the day
             recorded_tables: [], // all tables that have entries for the day
             seen: false, //toggle add table form
+            editing: false,
+            edit_id: "",
         },
         methods: {
             add_table: self.add_table,
@@ -261,8 +311,12 @@ var app = function() {
             get_dash_info: self.get_dash_info,
             add_entry: self.add_entry,
             add_entry_time: self.add_entry_time,
-            pass_data: self.pass_data
+            pass_data: self.pass_data,
+            add_value: self.add_value,
+            edit_entry: self.edit_entry,
+            update_entry_box: self.update_entry_box,
         }
+
     });
 
 
